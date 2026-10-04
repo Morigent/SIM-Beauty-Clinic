@@ -3,6 +3,7 @@ import { View, Text, ScrollView, Animated, Pressable, Alert, Platform, useWindow
 import { styles, colors, spacing } from "../theme/style";
 import Navbar from "../components/Navbar";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 
 const SERVICES = [
   { id: '1', label: 'Facial Treatment', emoji: '✨' },
@@ -150,12 +151,7 @@ export default function Index() {
   };
 
   const handleSignIn = () => {
-    const message = 'Sign in is coming soon.';
-    if (Platform.OS === 'web') {
-      window.alert(message);
-    } else {
-      Alert.alert('Sign In', message);
-    }
+    router.push('/sign-in');
   };
 
   return (

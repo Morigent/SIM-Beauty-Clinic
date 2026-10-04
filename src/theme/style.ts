@@ -472,6 +472,39 @@ export const styles = StyleSheet.create({
   footerLinks: { flexDirection: 'row' },
   footerLink: { fontFamily: fonts.body, fontSize: fontSize.caption, color: colors.body, marginLeft: spacing.lg },
   footerCopy: { fontFamily: fonts.body, fontSize: 9, color: colors.muted, paddingHorizontal: spacing.xl, paddingBottom: spacing.lg, backgroundColor: colors.cream },
+
+  /* ---------- Auth ---------- */
+  authScreen: { flex: 1, backgroundColor: colors.cream, justifyContent: 'center', paddingHorizontal: spacing.xl },
+  authCard: { ...hardShadowCard, width: '100%', maxWidth: 420, alignSelf: 'center', padding: spacing.xl },
+  authTitle: { fontFamily: fonts.heading, fontSize: fontSize.h2, color: colors.inkSoft, textAlign: 'center', marginBottom: spacing.xs },
+  authSubtitle: { fontFamily: fonts.body, fontSize: fontSize.body, color: colors.body, textAlign: 'center', marginBottom: spacing.xl },
+  authLabel: { fontFamily: fonts.bodyMedium, fontSize: fontSize.small, color: colors.inkSoft, marginBottom: spacing.xs },
+  authInput: {
+    height: 48,
+    paddingHorizontal: spacing.md,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.ink,
+    borderRadius: radius.sm,
+    fontFamily: fonts.body,
+    fontSize: fontSize.base,
+    color: colors.inkSoft,
+    marginBottom: spacing.md,
+  },
+  authButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.tan,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: colors.ink,
+    borderBottomWidth: 4,
+    borderRadius: radius.sm,
+    marginTop: spacing.sm,
+  },
+  authButtonText: { fontFamily: fonts.bodyMedium, fontSize: fontSize.base, color: colors.white },
+  authLink: { fontFamily: fonts.body, fontSize: fontSize.small, color: colors.body, textAlign: 'center', marginTop: spacing.lg },
+  authLinkStrong: { fontFamily: fonts.bodyMedium, color: colors.tanDark },
 });
 
 export default styles;
