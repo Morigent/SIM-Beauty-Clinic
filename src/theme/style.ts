@@ -4,7 +4,6 @@
 // Verify with an eyedropper / Figma and tweak in `colors` only — every style below reads from it.
 
 import { StyleSheet, Platform } from 'react-native';
-import { withSequence } from 'react-native-reanimated';
 
 /* ------------------------------------------------------------------ */
 /* 1. DESIGN TOKENS                                                    */
@@ -45,14 +44,14 @@ export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32, section:
 export const radius = { sm: 4, md: 8, pill: 999, arch: 999 };
 
 export const fontSize = {
-  caption: 10,
-  small: 12,
-  body: 13,
-  base: 14,
-  h3: 18,
-  h2: 26,
-  h1: 34,
-  price: 28,
+  caption: 12,
+  small: 14,
+  body: 15,
+  base: 16,
+  h3: 20,
+  h2: 30,
+  h1: 38,
+  price: 32,
 };
 
 /* ------------------------------------------------------------------ */
@@ -162,16 +161,33 @@ export const styles = StyleSheet.create({
     borderRightColor: colors.line,
   },
   navLogo: { fontFamily: fonts.heading, fontSize: 18, color: colors.white, letterSpacing: 0.5 },
-  navLinks: { flexDirection: 'row', alignItems: 'center', marginRight: spacing.lg },
-  navLink: { fontFamily: fonts.body, fontSize: fontSize.small, color: colors.inkSoft, marginLeft: spacing.lg },
-  navSearch: {
-    width: 64,
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderLeftWidth: StyleSheet.hairlineWidth,
-    borderLeftColor: colors.line,
-  },
+  navWrapper: { backgroundColor: colors.cream, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line, zIndex: 100 },
+  navLinks: { flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.lg, overflow: 'hidden' },
+  navLinkPressable: { marginRight: spacing.xl, paddingVertical: spacing.sm, alignItems: 'center' },
+  navLink: { fontFamily: fonts.body, fontSize: fontSize.small, color: colors.body },
+  navLinkActive: { fontFamily: fonts.bodyMedium, color: colors.inkSoft },
+  navLinkHovered: { color: colors.tanDark },
+  navLinkUnderline: { marginTop: 3, height: 1.5, width: '100%', backgroundColor: colors.tan, opacity: 0 },
+  navLinkUnderlineVisible: { opacity: 1 },
+  navRightControls: { flexDirection: 'row', alignItems: 'center', paddingRight: spacing.lg, gap: spacing.md },
+  navSignInBtn: { alignItems: 'center', justifyContent: 'center', backgroundColor: colors.tan, paddingVertical: 8, paddingHorizontal: 20, borderWidth: 1, borderColor: colors.ink, borderBottomWidth: 3, borderRadius: radius.sm },
+  navSignInBtnPressed: { borderBottomWidth: 1, transform: [{ translateY: 2 }] },
+  navSignInText: { fontFamily: fonts.bodyMedium, fontSize: fontSize.small, color: colors.white },
+  navHamburger: { padding: spacing.sm, borderRadius: radius.sm },
+  navHamburgerRoot: { width: 22, height: 16, justifyContent: 'space-between' },
+  navHamburgerBar: { height: 2, borderRadius: 1, backgroundColor: colors.inkSoft },
+  navHamburgerBar1Open: { transform: [{ rotate: '45deg' }, { translateY: 7 }] },
+  navHamburgerBarMidOpen: { opacity: 0 },
+  navHamburgerBar3Open: { transform: [{ rotate: '-45deg' }, { translateY: -7 }] },
+  navMobileMenu: { backgroundColor: colors.cream, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.line, paddingTop: spacing.sm, paddingBottom: spacing.md, paddingHorizontal: spacing.lg },
+  navMobileMenuItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 14, paddingHorizontal: spacing.sm },
+  navMobileMenuItemBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },
+  navMobileMenuDot: { width: 6, height: 6, borderRadius: radius.pill, backgroundColor: colors.transparent, borderWidth: 1, borderColor: colors.muted, marginRight: spacing.md },
+  navMobileMenuDotActive: { backgroundColor: colors.tan, borderColor: colors.tan },
+  navMobileMenuText: { fontFamily: fonts.body, fontSize: fontSize.base, color: colors.body },
+  navMobileMenuTextActive: { fontFamily: fonts.bodyMedium, color: colors.inkSoft },
+  navMobileSignInBtn: { marginTop: spacing.md, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.tan, paddingVertical: 12, borderWidth: 1, borderColor: colors.ink, borderBottomWidth: 3, borderRadius: radius.sm },
+  navMobileSignInText: { fontFamily: fonts.bodyMedium, fontSize: fontSize.base, color: colors.white },
 
   /* ---------- Hero ---------- */
   hero: { flexDirection: 'row', minHeight: 560, backgroundColor: colors.cream },
@@ -192,7 +208,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     width: '100%',
     alignSelf: 'flex-start',
-    marginTop: '30px'
+    marginTop: 30
   },
   heroPlayWrap: {
     width: 88,
@@ -219,7 +235,7 @@ export const styles = StyleSheet.create({
     color: colors.body,
     marginVertical: spacing.lg,
   },
-  heroImageBlock: { position: 'absolute', right: 0, bottom: 0, width: '62%', height: '58%', backgroundColor: colors.blush },
+  heroImageBlock: { width: 320, height: 320, backgroundColor: colors.blush, borderRadius: 12 },
   heroSparkle: { position: 'absolute', top: 88, right: 40, tintColor: colors.ink },
   avatarRow: { flexDirection: 'row', alignItems: 'center' },
   avatar: {
@@ -318,17 +334,23 @@ export const styles = StyleSheet.create({
   testimonialAvatar: {
     position: 'absolute',
     top: -18,
-    left: spacing.lg,
+    left: '50%',
+    marginLeft: -20,
     width: 40,
     height: 40,
     borderRadius: radius.pill,
     borderWidth: 1,
     borderColor: colors.ink,
     backgroundColor: colors.blush,
+    shadowColor: colors.ink,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 4,
   },
-  testimonialText: { fontFamily: fonts.body, fontSize: fontSize.small, lineHeight: 18, color: colors.body },
-  testimonialAuthor: { fontFamily: fonts.bodyMedium, fontSize: fontSize.caption, color: colors.inkSoft, marginTop: spacing.md },
-  testimonialService: { fontFamily: fonts.body, fontSize: fontSize.caption, color: colors.muted },
+  testimonialText: { fontFamily: fonts.body, fontSize: fontSize.small, lineHeight: 18, color: colors.body, textAlign: 'center' },
+  testimonialAuthor: { fontFamily: fonts.bodyMedium, fontSize: fontSize.caption, color: colors.inkSoft, marginTop: spacing.md, textAlign: 'center' },
+  testimonialService: { fontFamily: fonts.body, fontSize: fontSize.caption, color: colors.muted, textAlign: 'center' },
   dotsRow: { flexDirection: 'row', justifyContent: 'center', marginTop: spacing.xl },
   dot: {
     width: 8,
@@ -356,11 +378,11 @@ export const styles = StyleSheet.create({
   },
   pricingImageWrap: { height: 200, backgroundColor: colors.blush },
   pricingBody: { padding: spacing.lg },
-  pricingName: { fontFamily: fonts.heading, fontSize: 18, color: colors.inkSoft },
-  pricingTagline: { fontFamily: fonts.body, fontSize: fontSize.caption, color: colors.muted, marginBottom: spacing.md },
-  pricingFeatureRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
+  pricingName: { fontFamily: fonts.heading, fontSize: fontSize.h3, color: colors.inkSoft, textAlign: 'center' },
+  pricingTagline: { fontFamily: fonts.body, fontSize: fontSize.caption, color: colors.muted, marginBottom: spacing.md, textAlign: 'center' },
+  pricingFeatureRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 6 },
   pricingCheck: { color: colors.gold, marginRight: spacing.sm, fontSize: 12 },
-  pricingFeatureText: { fontFamily: fonts.body, fontSize: fontSize.caption, color: colors.body, flex: 1 },
+  pricingFeatureText: { fontFamily: fonts.body, fontSize: fontSize.caption, color: colors.body },
   pricingIdeal: { fontFamily: fonts.body, fontSize: fontSize.caption, lineHeight: 15, color: colors.body, marginTop: spacing.sm },
   pricingPrice: { fontFamily: fonts.heading, fontSize: fontSize.price, color: colors.inkSoft, textAlign: 'center', marginVertical: spacing.lg },
   pricingButtonFeatured: {
@@ -429,6 +451,11 @@ export const styles = StyleSheet.create({
   },
   subscribeButton: { width: 56, height: 44, backgroundColor: colors.ink, alignItems: 'center', justifyContent: 'center' },
   subscribeDisclaimer: { fontFamily: fonts.body, fontSize: 9, color: colors.muted, textAlign: 'center', marginTop: spacing.md },
+
+  /* ---------- Contact ---------- */
+  contactCard: { ...hardShadowCard, width: '100%', maxWidth: 520, padding: spacing.lg, marginTop: spacing.lg },
+  contactLabel: { fontFamily: fonts.bodyMedium, fontSize: fontSize.small, color: colors.inkSoft, marginBottom: 4 },
+  contactValue: { fontFamily: fonts.body, fontSize: fontSize.body, lineHeight: 20, color: colors.body, textAlign: 'center' },
 
   /* ---------- Footer ---------- */
   footer: {
