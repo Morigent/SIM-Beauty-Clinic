@@ -41,7 +41,7 @@ export const fonts = {
 
 export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32, section: 48 };
 
-export const radius = { sm: 4, md: 8, pill: 999, arch: 999 };
+export const radius = { sm: 4, md: 8, pill: 999, arch: 999, archSm: 110 };
 
 export const fontSize = {
   caption: 12,
@@ -368,15 +368,15 @@ export const styles = StyleSheet.create({
     width: 230,
     marginRight: spacing.lg,
     backgroundColor: colors.cream,
-    borderTopLeftRadius: radius.arch,
-    borderTopRightRadius: radius.arch,
+    borderTopLeftRadius: radius.archSm,
+    borderTopRightRadius: radius.archSm,
     borderBottomLeftRadius: radius.md,
     borderBottomRightRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.line,
     overflow: 'hidden',
   },
-  pricingImageWrap: { height: 200, backgroundColor: colors.blush },
+  pricingImageWrap: { height: 120, backgroundColor: colors.blush },
   pricingBody: { padding: spacing.lg },
   pricingName: { fontFamily: fonts.heading, fontSize: fontSize.h3, color: colors.inkSoft, textAlign: 'center' },
   pricingTagline: { fontFamily: fonts.body, fontSize: fontSize.caption, color: colors.muted, marginBottom: spacing.md, textAlign: 'center' },

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Text, ScrollView, Animated, Pressable, Alert, Platform, useWindowDimensions, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 import { styles, colors, spacing } from "../theme/style";
 import Navbar from "../components/Navbar";
@@ -33,18 +33,19 @@ export default function Index() {
   const [activeKey, setActiveKey] = useState('home');
   const { width } = useWindowDimensions();
   const cardWidth = width * 0.45;
+  const offerCardWidth = Math.min((width - spacing.lg * 2 - spacing.md * 2) / 3 - 4, 200);
+  const isDesktop = width >= 768;
 
-  // Scroll lock: while touching a horizontal card list that hasn't reached its
-  // end, the outer vertical scroll is disabled so the cards scroll first.
-  const [touchingList, setTouchingList] = useState<string | null>(null);
-  const [servicesAtEnd, setServicesAtEnd] = useState(false);
-  const [testimonialsAtEnd, setTestimonialsAtEnd] = useState(false);
-  const [specialOfferAtEnd, setSpecialOfferAtEnd] = useState(false);
+  // Desktop scroll-lock: while the cursor is over a horizontal card list that
+  // hasn't reached its end, the wheel scrolls the cards instead of the page.
+  // Once at the end, the page scrolls normally. Mobile keeps default scrolling.
+  const servicesAtEnd = useRef(false);
+  const testimonialsAtEnd = useRef(false);
 
-  const verticalScrollLocked =
-    (touchingList === 'services' && !servicesAtEnd) ||
-    (touchingList === 'testimonials' && !testimonialsAtEnd) ||
-    (touchingList === 'special-offer' && !specialOfferAtEnd);
+  const servicesListRef = useRef<ScrollView>(null);
+  const testimonialsListRef = useRef<ScrollView>(null);
+  const servicesSectionRef = useRef<View>(null);
+  const testimonialsSectionRef = useRef<View>(null);
 
   const scrollRef = useRef<ScrollView>(null);
   // Store Y offset for each section
@@ -112,8 +113,60 @@ export default function Index() {
 
   const isHorizontalAtEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
+    // Before the list is measured, contentSize.width is 0 and the comparison
+    // below would falsely report "at end", disabling the scroll-lock.
+    if (contentSize.width <= 0) return false;
     return contentOffset.x >= contentSize.width - layoutMeasurement.width - 1;
   };
+
+  // Desktop-only: attach a non-passive wheel listener so a vertical wheel scrolls
+  // the cards horizontally (React's onWheel is passive, so preventDefault fails).
+  useEffect(() => {
+    if (Platform.OS !== 'web' || !isDesktop) return;
+
+    const bindWheel = (
+      sectionRef: { current: View | null },
+      listRef: { current: ScrollView | null },
+      atEndRef: { current: boolean },
+    ) => {
+      // On web the section ref resolves to its underlying DOM node.
+      const sectionNode = sectionRef.current as unknown as HTMLElement | null;
+      if (!sectionNode || typeof sectionNode.addEventListener !== 'function') return;
+      let targetX = 0;
+      let lastWheelAt = 0;
+
+      const onWheel = (e: WheelEvent) => {
+        const dx = e.deltaX;
+        const dy = e.deltaY;
+        // Horizontal deltas are handled natively by the list.
+        if (Math.abs(dy) <= Math.abs(dx)) return;
+        // Once at the end, let the page scroll down.
+        if (atEndRef.current) return;
+        e.preventDefault();
+        // On web the list ref resolves to its underlying DOM node.
+        const listNode = listRef.current as unknown as HTMLElement | null;
+        if (!listNode) return;
+        // Re-anchor to the real position when a new wheel gesture starts.
+        const now = Date.now();
+        if (now - lastWheelAt > 300) {
+          targetX = listNode.scrollLeft;
+        }
+        lastWheelAt = now;
+        const max = listNode.scrollWidth - listNode.clientWidth;
+        targetX = Math.max(0, Math.min(max, targetX + dy));
+        listRef.current?.scrollTo({ x: targetX, animated: true });
+      };
+
+      sectionNode.addEventListener('wheel', onWheel, { passive: false });
+      return () => sectionNode.removeEventListener('wheel', onWheel);
+    };
+
+    const cleanups = [
+      bindWheel(servicesSectionRef, servicesListRef, servicesAtEnd),
+      bindWheel(testimonialsSectionRef, testimonialsListRef, testimonialsAtEnd),
+    ];
+    return () => cleanups.forEach((cleanup) => cleanup && cleanup());
+  }, [isDesktop]);
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (isProgrammaticScroll.current) return;
@@ -150,8 +203,17 @@ export default function Index() {
     }
   };
 
+  const signInScale = useRef(new Animated.Value(1)).current;
+
+  const handleSignInPressIn = () => {
+    Animated.spring(signInScale, { toValue: 0.85, useNativeDriver: true, speed: 30, bounciness: 10 }).start();
+  };
+  const handleSignInPressOut = () => {
+    Animated.spring(signInScale, { toValue: 1, useNativeDriver: true, speed: 20, bounciness: 14 }).start();
+  };
+
   const handleSignIn = () => {
-    router.push('/sign-in');
+    //router.push('');
   };
 
   return (
@@ -162,7 +224,7 @@ export default function Index() {
         onSignInPress={handleSignIn}
         brandName="LuxeDerm"
       />
-      <ScrollView ref={scrollRef} contentContainerStyle={{ flexGrow: 1 }} onScroll={handleScroll} scrollEventThrottle={16} scrollEnabled={!verticalScrollLocked}>
+      <ScrollView ref={scrollRef} contentContainerStyle={{ flexGrow: 1 }} onScroll={handleScroll} scrollEventThrottle={16}>
 
         {/* Hero Section */}
         <View
@@ -182,6 +244,7 @@ export default function Index() {
 
         {/* Our Services Section */}
         <View
+          ref={servicesSectionRef}
           style={{ paddingTop: spacing.section, paddingBottom: spacing.xxl }}
           onLayout={(e) => {
             sectionOffsets.current['our-service'] = e.nativeEvent.layout.y;
@@ -202,14 +265,13 @@ export default function Index() {
           </Text>
 
           <ScrollView
+            ref={servicesListRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: spacing.xl, paddingBottom: spacing.sm }}
-            onTouchStart={() => setTouchingList('services')}
-            onTouchEnd={() => setTouchingList(null)}
-            onTouchCancel={() => setTouchingList(null)}
-            onScroll={(e) => setServicesAtEnd(isHorizontalAtEnd(e))}
-            onMomentumScrollEnd={(e) => setServicesAtEnd(isHorizontalAtEnd(e))}
+            onScroll={(e) => {
+              servicesAtEnd.current = isHorizontalAtEnd(e);
+            }}
             scrollEventThrottle={16}
           >
             {SERVICES.map((service) => (
@@ -225,6 +287,7 @@ export default function Index() {
 
         {/* Testimonials Section */}
         <View
+          ref={testimonialsSectionRef}
           style={{ paddingTop: spacing.section, paddingBottom: spacing.xxl, marginTop: spacing.section, backgroundColor: colors.creamDeep }}
           onLayout={(e) => {
             sectionOffsets.current['testimonial'] = e.nativeEvent.layout.y;
@@ -245,14 +308,13 @@ export default function Index() {
           </Text>
 
           <ScrollView
+            ref={testimonialsListRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: spacing.xl, paddingBottom: spacing.sm }}
-            onTouchStart={() => setTouchingList('testimonials')}
-            onTouchEnd={() => setTouchingList(null)}
-            onTouchCancel={() => setTouchingList(null)}
-            onScroll={(e) => setTestimonialsAtEnd(isHorizontalAtEnd(e))}
-            onMomentumScrollEnd={(e) => setTestimonialsAtEnd(isHorizontalAtEnd(e))}
+            onScroll={(e) => {
+              testimonialsAtEnd.current = isHorizontalAtEnd(e);
+            }}
             scrollEventThrottle={16}
           >
             {TESTIMONIALS.map((item) => (
@@ -307,21 +369,13 @@ export default function Index() {
             Limited-time packages to elevate your glow
           </Text>
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: spacing.xl, paddingBottom: spacing.sm }}
-            onTouchStart={() => setTouchingList('special-offer')}
-            onTouchEnd={() => setTouchingList(null)}
-            onTouchCancel={() => setTouchingList(null)}
-            onScroll={(e) => setSpecialOfferAtEnd(isHorizontalAtEnd(e))}
-            onMomentumScrollEnd={(e) => setSpecialOfferAtEnd(isHorizontalAtEnd(e))}
-            scrollEventThrottle={16}
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: spacing.md, paddingHorizontal: spacing.lg, paddingBottom: spacing.sm }}
           >
             {SPECIAL_OFFERS.map((plan) => (
-              <View key={plan.id} style={[styles.pricingCard, { width: width * 0.68, minHeight: 460 }]}>
+              <View key={plan.id} style={[styles.pricingCard, { width: offerCardWidth }]}>
                 <View style={[styles.pricingImageWrap, { alignItems: 'center', justifyContent: 'center' }]}>
-                  <Text style={{ fontSize: 72 }}>{plan.emoji}</Text>
+                  <Text style={{ fontSize: 32 }}>{plan.emoji}</Text>
                 </View>
                 <View style={styles.pricingBody}>
                   <Text style={styles.pricingName}>{plan.name}</Text>
@@ -334,7 +388,7 @@ export default function Index() {
                   ))}
                   <Text style={styles.pricingPrice}>
                     {plan.price}
-                    <Text style={{ fontSize: 14, color: colors.muted }}> /mo</Text>
+                    <Text style={{ fontSize: 12, color: colors.muted }}> /mo</Text>
                   </Text>
                   <Pressable
                     style={({ pressed }) => [
@@ -343,14 +397,14 @@ export default function Index() {
                     ]}
                     onPress={() => handleChoosePlan(plan.name)}
                   >
-                    <Text style={{ color: plan.featured ? colors.white : colors.inkSoft, fontWeight: '700', fontSize: 14 }}>
+                    <Text style={{ color: plan.featured ? colors.white : colors.inkSoft, fontWeight: '700', fontSize: 12 }}>
                       Choose Plan
                     </Text>
                   </Pressable>
                 </View>
               </View>
             ))}
-          </ScrollView>
+          </View>
         </View>
 
         {/* Contact Section */}
@@ -381,14 +435,14 @@ export default function Index() {
             </View>
 
             <Pressable
-              style={({ pressed }) => [
-                styles.buttonPrimary,
-                { alignSelf: 'center', marginTop: spacing.xl },
-                pressed && { opacity: 0.85, transform: [{ scale: 0.97 }] },
-              ]}
+              onPressIn={handleSignInPressIn}
+              onPressOut={handleSignInPressOut}
+              style={[styles.buttonPrimary, { alignSelf: 'center', marginTop: spacing.xl }]}
               onPress={handleSignIn}
             >
-              <Text style={[styles.buttonPrimaryText, { marginRight: 0 }]}>Sign In</Text>
+              <Animated.View style={{ transform: [{ scale: signInScale }] }}>
+                <Text style={[styles.buttonPrimaryText, { marginRight: 0 }]}>Sign In</Text>
+              </Animated.View>
             </Pressable>
           </View>
         </View>
