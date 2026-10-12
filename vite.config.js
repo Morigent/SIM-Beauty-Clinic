@@ -13,7 +13,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: resolve(sourceDir, 'index.html'),
-        service: resolve(sourceDir, 'service.html'),
       },
     },
   },
