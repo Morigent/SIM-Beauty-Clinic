@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Klinik Kecantikan terbaik dengan dokter-dokter terpercaya dan layanan perawatan kulit berkualitas tinggi.">
+    <title>Klinik Kecantikan — Perawatan Terbaik untuk Anda</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            dark:    '#0d5c4e',
+                            DEFAULT: '#1a6b5e',
+                            mid:     '#2a8c7a',
+                            light:   '#4db6a0',
+                            pale:    '#d0eeea',
+                            bg:      '#e8f6f3',
+                        },
+                        orange: {
+                            DEFAULT: '#e8704a',
+                            light:   '#f0a080',
+                        },
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans:  ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%':   { opacity: '0', transform: 'translateY(28px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        pulse2: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%':      { transform: 'scale(1.04)' },
+                        },
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease both',
+                        'pulse2':     'pulse2 2s ease-in-out infinite',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #e8f6f3; }
+        ::-webkit-scrollbar-thumb { background: #2a8c7a; border-radius: 3px; }
+
+        /* Scroll-reveal base states */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible, .reveal-left.visible, .reveal-right.visible {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        /* Stagger delays */
+        .stagger-1 { transition-delay: 0.05s !important; }
+        .stagger-2 { transition-delay: 0.15s !important; }
+        .stagger-3 { transition-delay: 0.25s !important; }
+        .stagger-4 { transition-delay: 0.35s !important; }
+
+        /* Hero gradient */
+        .hero-gradient {
+            background: linear-gradient(160deg, #e8f6f3 0%, #b2ddd5 40%, #6dbdad 80%, #1a6b5e 100%);
+        }
+
+        /* Hero image pill shape */
+        .hero-img-shape { border-radius: 120px 120px 0 0; }
+
+        /* Active dot pill */
+        .dot-pill {
+            width: 22px !important;
+            border-radius: 4px !important;
+            background: #0d5c4e !important;
+        }
+
+        /* Nav active underline */
+        .nav-active {
+            color: #1a6b5e !important;
+            border-bottom-color: #1a6b5e !important;
+        }
+
+        /* Service tab active */
+        .svc-active {
+            background: #1a6b5e !important;
+            color: #fff !important;
+            border-color: #1a6b5e !important;
+            box-shadow: 0 4px 14px rgba(26,107,94,0.25) !important;
+        }
+
+        /* Service panel fade transition */
+        #service-panel { transition: opacity 0.35s ease; }
+        #service-panel.fade-out { opacity: 0 !important; }
+
+        /* Mobile menu slide */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+        }
+        #mobile-menu.open {
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        /* Ripple keyframe */
+        @keyframes rippleAnim {
+            to { transform: scale(30); opacity: 0; }
+        }
+    </style>
+</head>
+
+<body class="font-sans bg-teal-bg text-gray-800 overflow-x-hidden">
+
+    <!-- ===== HEADER / NAVBAR ===== -->
+    <header id="header"
+            class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-white/60 transition-shadow duration-300">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
+
+            <!-- Logo -->
+            <a href="#hero" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-teal to-teal-mid flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <span class="font-serif text-xl font-bold text-teal-dark tracking-wide">Klinik</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav id="navbar" class="hidden md:flex gap-8">
+                <a href="#hero"     class="nav-link nav-active text-sm font-medium pb-0.5 border-b-2 border-transparent hover:text-teal hover:border-teal transition-all duration-200">Beranda</a>
+                <a href="#doctors"  class="nav-link text-sm font-medium text-gray-500 pb-0.5 border-b-2 border-transparent hover:text-teal hover:border-teal transition-all duration-200">Doctor</a>
+                <a href="#services" class="nav-link text-sm font-medium text-gray-500 pb-0.5 border-b-2 border-transparent hover:text-teal hover:border-teal transition-all duration-200">Service</a>
+                <a href="#review"   class="nav-link text-sm font-medium text-gray-500 pb-0.5 border-b-2 border-transparent hover:text-teal hover:border-teal transition-all duration-200">Review</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <button id="btn-masuk"
+                        class="bg-gradient-to-r from-orange to-orange-light text-white px-5 py-2 rounded-full text-sm font-semibold shadow-lg shadow-orange/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-orange/40 transition-all duration-200 active:scale-95">
+                    Masuk
+                </button>
+                <!-- Hamburger -->
+                <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-1" aria-label="Menu">
+                    <span id="hb1" class="w-5 h-0.5 bg-teal-dark block transition-all duration-300 origin-center"></span>
+                    <span id="hb2" class="w-5 h-0.5 bg-teal-dark block transition-all duration-300"></span>
+                    <span id="hb3" class="w-5 h-0.5 bg-teal-dark block transition-all duration-300 origin-center"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile dropdown -->
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-teal-pale px-6">
+            <div class="flex flex-col py-4 gap-4">
+                <a href="#hero"     class="mobile-nav text-sm font-medium text-gray-600 hover:text-teal transition-colors">Beranda</a>
+                <a href="#doctors"  class="mobile-nav text-sm font-medium text-gray-600 hover:text-teal transition-colors">Doctor</a>
+                <a href="#services" class="mobile-nav text-sm font-medium text-gray-600 hover:text-teal transition-colors">Service</a>
+                <a href="#review"   class="mobile-nav text-sm font-medium text-gray-600 hover:text-teal transition-colors">Review</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero-gradient relative overflow-hidden" id="hero">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-end min-h-[520px]">
+
+            <!-- Left: Text + dots + CTA -->
+            <div class="flex flex-col justify-center py-14 gap-6 reveal-left">
+                <h1 id="hero-title" class="font-serif text-4xl md:text-5xl font-bold text-teal-dark leading-tight tracking-tight"
+                    style="transition: opacity 0.4s ease, transform 0.4s ease;">
+                    Lorem Ipsum<br>sit dolor amet
+                </h1>
+                <div id="hero-dots" class="flex gap-2 mt-1">
+                    <span class="dot w-2 h-2 rounded-full bg-teal/30 cursor-pointer transition-all duration-300 dot-pill" data-index="0"></span>
+                    <span class="dot w-2 h-2 rounded-full bg-teal/30 cursor-pointer transition-all duration-300" data-index="1"></span>
+                    <span class="dot w-2 h-2 rounded-full bg-teal/30 cursor-pointer transition-all duration-300" data-index="2"></span>
+                </div>
+                <button id="btn-daftar"
+                        class="self-start bg-gradient-to-r from-orange to-orange-light text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-orange/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange/45 transition-all duration-200 active:scale-95">
+                    Daftar &rarr;
+                </button>
+            </div>
+
+            <!-- Center: Hero image -->
+            <div class="hidden md:flex items-end justify-center w-56 mx-8 reveal">
+                <img src="hero_woman.jpg" alt="Klinik Kecantikan"
+                     id="hero-img"
+                     class="hero-img-shape w-full max-h-[480px] object-cover object-top shadow-2xl shadow-teal-dark/25 block">
+            </div>
+
+            <!-- Right: Category badges -->
+            <div class="hidden md:flex flex-col gap-5 py-10 pl-6 reveal-right">
+                <div id="cat-konsultasi"
+                     class="flex items-center gap-3 bg-white/85 backdrop-blur-sm rounded-xl px-4 py-2.5 min-w-[140px] shadow-md cursor-pointer hover:translate-x-1 hover:shadow-teal/20 transition-all duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-teal-bg flex items-center justify-center shrink-0">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1a6b5e">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-semibold text-teal-dark">Konsultasi</span>
+                </div>
+
+                <div id="cat-perawatan"
+                     class="flex items-center gap-3 bg-white/85 backdrop-blur-sm rounded-xl px-4 py-2.5 min-w-[140px] shadow-md cursor-pointer hover:translate-x-1 hover:shadow-teal/20 transition-all duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-teal-bg flex items-center justify-center shrink-0">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1a6b5e">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-semibold text-teal-dark">Perawatan</span>
+                </div>
+
+                <div id="cat-obat"
+                     class="flex items-center gap-3 bg-white/85 backdrop-blur-sm rounded-xl px-4 py-2.5 min-w-[140px] shadow-md cursor-pointer hover:translate-x-1 hover:shadow-teal/20 transition-all duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-teal-bg flex items-center justify-center shrink-0">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1a6b5e">
+                            <path d="M6.5 10h-2v2h2v2h2v-2h2v-2h-2V8h-2v2zm8.5 2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-7 6c-2.21 0-4 1.79-4 4h8c0-2.21-1.79-4-4-4zm7 0c-2.21 0-4 1.79-4 4h8c0-2.21-1.79-4-4-4z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-semibold text-teal-dark">Obat</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== OUR DOCTOR SECTION ===== -->
+    <section class="py-20 px-6 md:px-12 max-w-7xl mx-auto" id="doctors">
+        <div class="text-center mb-10 reveal">
+            <h2 class="font-serif text-3xl font-bold text-teal-dark mb-2">Our Doctor</h2>
+            <div class="w-12 h-1 bg-orange rounded-full mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="doctor-card reveal stagger-1 bg-white rounded-2xl overflow-hidden border border-teal-pale shadow-md cursor-pointer hover:-translate-y-1.5 hover:shadow-xl hover:shadow-teal/15 transition-all duration-300 group" id="doctor-1">
+                <div class="h-48 overflow-hidden">
+                    <img src="doctor.jpg" alt="Dr. Ahmad Santosa" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-3 border-t-2 border-teal-pale bg-gradient-to-b from-teal-bg/40 to-white">
+                    <p class="text-xs font-bold text-teal-dark">Dr. Ahmad Santosa</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Spesialis Kulit</p>
+                    <p class="text-xs text-orange font-semibold mt-1">1.5k+ pasien</p>
+                </div>
+            </div>
+
+            <div class="doctor-card reveal stagger-2 bg-white rounded-2xl overflow-hidden border border-teal-pale shadow-md cursor-pointer hover:-translate-y-1.5 hover:shadow-xl hover:shadow-teal/15 transition-all duration-300 group" id="doctor-2">
+                <div class="h-48 overflow-hidden">
+                    <img src="doctor.jpg" alt="Dr. Budi Hartono" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-3 border-t-2 border-teal-pale bg-gradient-to-b from-teal-bg/40 to-white">
+                    <p class="text-xs font-bold text-teal-dark">Dr. Budi Hartono</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Sp. Kecantikan</p>
+                    <p class="text-xs text-orange font-semibold mt-1">1.2k+ pasien</p>
+                </div>
+            </div>
+
+            <div class="doctor-card reveal stagger-3 bg-white rounded-2xl overflow-hidden border border-teal-pale shadow-md cursor-pointer hover:-translate-y-1.5 hover:shadow-xl hover:shadow-teal/15 transition-all duration-300 group" id="doctor-3">
+                <div class="h-48 overflow-hidden">
+                    <img src="doctor.jpg" alt="Dr. Candra Wijaya" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-3 border-t-2 border-teal-pale bg-gradient-to-b from-teal-bg/40 to-white">
+                    <p class="text-xs font-bold text-teal-dark">Dr. Candra Wijaya</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Sp. Estetika</p>
+                    <p class="text-xs text-orange font-semibold mt-1">1.8k+ pasien</p>
+                </div>
+            </div>
+
+            <div class="doctor-card reveal stagger-4 bg-white rounded-2xl overflow-hidden border border-teal-pale shadow-md cursor-pointer hover:-translate-y-1.5 hover:shadow-xl hover:shadow-teal/15 transition-all duration-300 group" id="doctor-4">
+                <div class="h-48 overflow-hidden">
+                    <img src="doctor.jpg" alt="Dr. Dian Pratama" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-3 border-t-2 border-teal-pale bg-gradient-to-b from-teal-bg/40 to-white">
+                    <p class="text-xs font-bold text-teal-dark">Dr. Dian Pratama</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Sp. Dermatologi</p>
+                    <p class="text-xs text-orange font-semibold mt-1">1.5k+ pasien</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== OUR SERVICES SECTION ===== -->
+    <section class="py-16 px-6 md:px-12 max-w-7xl mx-auto" id="services">
+        <div class="text-center mb-10 reveal">
+            <h2 class="font-serif text-3xl font-bold text-teal-dark mb-2">Our Services</h2>
+            <div class="w-12 h-1 bg-orange rounded-full mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6">
+            <!-- Sidebar -->
+            <aside class="flex md:flex-col flex-row flex-wrap gap-2 reveal-left">
+                <button class="service-btn svc-active text-left px-4 py-3 rounded-xl text-sm font-medium border border-teal-pale bg-white text-gray-500 shadow-sm hover:border-teal-mid hover:text-teal hover:bg-teal-bg transition-all duration-200" data-svc="1" id="svc-btn-1">Facial Treatment</button>
+                <button class="service-btn text-left px-4 py-3 rounded-xl text-sm font-medium border border-teal-pale bg-white text-gray-500 shadow-sm hover:border-teal-mid hover:text-teal hover:bg-teal-bg transition-all duration-200" data-svc="2" id="svc-btn-2">Skin Brightening</button>
+                <button class="service-btn text-left px-4 py-3 rounded-xl text-sm font-medium border border-teal-pale bg-white text-gray-500 shadow-sm hover:border-teal-mid hover:text-teal hover:bg-teal-bg transition-all duration-200" data-svc="3" id="svc-btn-3">Anti-Aging</button>
+                <button class="service-btn text-left px-4 py-3 rounded-xl text-sm font-medium border border-teal-pale bg-white text-gray-500 shadow-sm hover:border-teal-mid hover:text-teal hover:bg-teal-bg transition-all duration-200" data-svc="4" id="svc-btn-4">Laser Therapy</button>
+            </aside>
+
+            <!-- Content panel -->
+            <div id="service-panel" class="rounded-2xl overflow-hidden shadow-xl shadow-teal/10 reveal-right">
+                <div class="w-full h-60 overflow-hidden">
+                    <img src="treatment.jpg" alt="Layanan Perawatan Kulit"
+                         id="service-img"
+                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="bg-teal p-6">
+                    <p id="service-desc" class="text-white/90 text-sm leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== REVIEW / TESTIMONIAL SECTION ===== -->
+    <section class="py-16 px-6 md:px-12 max-w-7xl mx-auto flex justify-end" id="review">
+        <div class="bg-gradient-to-br from-teal-pale to-teal-light/40 p-0.5 rounded-2xl w-full md:w-[55%] min-w-[300px] reveal-right">
+            <div class="bg-teal rounded-2xl p-8">
+                <p class="font-serif text-6xl leading-none text-white/40 mb-3">"</p>
+                <p class="text-white/90 text-sm leading-relaxed mb-6">
+                    Lorem ipsum dolor sit amet, this has been the best service ever experienced at any clinic I have visited.
+                </p>
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-full bg-white/90 flex items-center justify-center shrink-0">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="#1a6b5e">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-white mb-0.5">Fatima Al-Said</p>
+                        <div id="review-stars" class="flex gap-0.5 text-yellow-400 text-base">
+                            &#9733;&#9733;&#9733;&#9733;&#9733;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="py-20 px-6 md:px-12 bg-gradient-to-br from-teal-bg via-teal-pale to-teal-mid/50 flex justify-center items-center min-h-[200px]" id="cta">
+        <div class="text-center reveal">
+            <p class="font-serif text-2xl font-semibold text-teal-dark mb-5">Siap Memulai Perawatan Anda?</p>
+            <button id="btn-daftar-cta"
+                    class="animate-pulse2 bg-gradient-to-r from-orange to-orange-light text-white px-10 py-3.5 rounded-full text-base font-bold tracking-wide shadow-xl shadow-orange/40 hover:-translate-y-1 hover:shadow-orange/60 transition-all duration-200 active:scale-95">
+                Daftar &rarr;
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== WIKIPEDIA EDUCATIONAL SECTION ===== -->
+    <section class="py-20 px-6 md:px-12" id="edukasi">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Header -->
+            <div class="text-center mb-10 reveal">
+                <h2 class="font-serif text-3xl font-bold text-teal-dark mb-2">Beauty Knowledge</h2>
+                <div class="w-12 h-1 bg-orange rounded-full mx-auto mb-4"></div>
+                <p class="text-sm text-gray-500 max-w-xl mx-auto">Informasi edukatif seputar perawatan kecantikan dari Wikipedia, diperbarui setiap kunjungan.</p>
+            </div>
+
+            <!-- Card -->
+            <div id="wiki-card"
+                 class="reveal max-w-4xl mx-auto bg-white rounded-3xl overflow-hidden shadow-2xl shadow-teal/10 border border-teal-pale flex flex-col md:flex-row">
+
+                <!-- Skeleton / Image pane -->
+                <div id="wiki-img-wrap"
+                     class="relative md:w-72 shrink-0 bg-teal-bg flex items-center justify-center overflow-hidden min-h-[220px]">
+                    <!-- Shimmer skeleton -->
+                    <div id="wiki-img-skeleton"
+                         class="absolute inset-0 bg-gradient-to-r from-teal-pale via-white to-teal-pale bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]">
+                    </div>
+                    <img id="wiki-img" src="" alt=""
+                         class="hidden relative z-10 w-full h-full object-cover">
+                    <!-- No-image fallback icon -->
+                    <div id="wiki-img-fallback"
+                         class="hidden relative z-10 flex flex-col items-center gap-2 text-teal/40">
+                        <svg width="52" height="52" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21 19V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2zm-8.5-4.5l-2.5-3-3.5 4.5h12l-4.5-6-1.5 4.5z"/>
+                        </svg>
+                        <span class="text-xs font-medium">No image</span>
+                    </div>
+                </div>
+
+                <!-- Text pane -->
+                <div class="flex flex-col justify-between p-7 flex-1 gap-5">
+                    <!-- Skeleton rows -->
+                    <div id="wiki-text-skeleton" class="flex flex-col gap-3">
+                        <div class="h-6 w-2/3 rounded-lg bg-teal-pale animate-pulse"></div>
+                        <div class="h-3 w-full rounded bg-gray-100 animate-pulse"></div>
+                        <div class="h-3 w-full rounded bg-gray-100 animate-pulse"></div>
+                        <div class="h-3 w-5/6 rounded bg-gray-100 animate-pulse"></div>
+                        <div class="h-3 w-4/6 rounded bg-gray-100 animate-pulse"></div>
+                    </div>
+
+                    <!-- Actual content (hidden until loaded) -->
+                    <div id="wiki-content" class="hidden flex flex-col gap-4">
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <span id="wiki-topic-badge"
+                                      class="inline-block text-[11px] font-bold text-teal uppercase tracking-widest bg-teal-bg px-2.5 py-0.5 rounded-full mb-2"></span>
+                                <h3 id="wiki-title"
+                                    class="font-serif text-2xl font-bold text-teal-dark leading-tight"></h3>
+                            </div>
+                            <!-- Wikipedia logo -->
+                            <div class="shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 font-bold text-lg font-serif">W</div>
+                        </div>
+
+                        <p id="wiki-summary"
+                           class="text-sm text-gray-600 leading-relaxed line-clamp-6"></p>
+
+                        <div class="flex flex-wrap items-center gap-3 pt-1">
+                            <a id="wiki-link" href="#" target="_blank" rel="noopener noreferrer"
+                               class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal hover:text-teal-dark transition-colors duration-200 group">
+                                Read more on Wikipedia
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                     class="group-hover:translate-x-0.5 transition-transform duration-200">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                            <span class="text-gray-200">|</span>
+                            <button id="wiki-refresh"
+                                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-orange hover:text-orange/80 transition-colors duration-200 group">
+                                <svg id="wiki-refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                     class="group-hover:rotate-180 transition-transform duration-500">
+                                    <path d="M23 4v6h-6"/>
+                                    <path d="M1 20v-6h6"/>
+                                    <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                                </svg>
+                                Topik lain
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Error state -->
+                    <div id="wiki-error" class="hidden text-center py-6">
+                        <p class="text-gray-400 text-sm mb-3">Gagal memuat data. Periksa koneksi internet.</p>
+                        <button id="wiki-retry"
+                                class="text-sm font-semibold text-teal hover:underline">Coba lagi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-teal-dark text-white/75 pt-10 pb-6 px-6 md:px-12" id="footer">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start gap-8 md:gap-16 mb-8">
+            <div class="shrink-0">
+                <div class="w-11 h-11 rounded-full bg-white/15 flex items-center justify-center">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="flex gap-10 md:gap-16 flex-1 justify-center flex-wrap">
+                <div class="flex flex-col gap-2">
+                    <a href="#" class="text-sm text-white/72 hover:text-teal-light transition-colors duration-200">Tentang Kami</a>
+                    <a href="#" class="text-sm text-white/72 hover:text-teal-light transition-colors duration-200">Layanan Kami</a>
+                    <a href="#" class="text-sm text-white/72 hover:text-teal-light transition-colors duration-200">Blog</a>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <p class="text-xs font-bold text-white/50 uppercase tracking-widest mb-1">Hubungi Kami</p>
+                    <a href="mailto:info@klinik.com" class="text-sm text-white/72 hover:text-teal-light transition-colors duration-200">info@klinik.com</a>
+                    <a href="tel:+6212345678"        class="text-sm text-white/72 hover:text-teal-light transition-colors duration-200">+62 123-456-78</a>
+                    <a href="#"                      class="text-sm text-white/72 hover:text-teal-light transition-colors duration-200">Jl. Kecantikan No. 1, Jakarta</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-white/10 pt-4 text-center">
+            <p class="text-xs text-white/40">&copy; 2024 Klinik Kecantikan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="script.js"></script>
+
+</body>
+</html>
