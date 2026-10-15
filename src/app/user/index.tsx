@@ -1,7 +1,8 @@
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { Stack, router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -19,6 +20,16 @@ import {
 } from "../../utils/data";
 
 type Mode = "doctor" | "treatment";
+
+type AppointmentStatus = "pending" | "confirmed" | "complete" | "cancelled";
+
+type Appointment = {
+  doctorId: string;
+  treatmentId: string;
+  dayIndex: number;
+  slot: string;
+  status: AppointmentStatus;
+};
 
 // Above this width the layout gets desktop-style alignment; below it stays mobile.
 const MEDIUM_SCREEN = 768;
@@ -43,7 +54,12 @@ export default function User() {
   const [treatmentId, setTreatmentId] = useState(TREATMENTS[0].id);
   const [dayIndex, setDayIndex] = useState(0);
   const [slot, setSlot] = useState<string | null>(null);
+  const [appointment, setAppointment] = useState<Appointment | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [slotWarning, setSlotWarning] = useState(false);
+  const [scheduleY, setScheduleY] = useState(0);
 
+  const scrollRef = useRef<ScrollView>(null);
   const { width } = useWindowDimensions();
   const medium = width >= MEDIUM_SCREEN;
 
@@ -78,8 +94,49 @@ export default function User() {
 
   const selectedDay = days[dayIndex];
 
+  const appointmentDoctor = appointment
+    ? DOCTORS.find((d) => d.id === appointment.doctorId)
+    : null;
+  const appointmentTreatment = appointment
+    ? TREATMENTS.find((t) => t.id === appointment.treatmentId)
+    : null;
+  const appointmentDay = appointment ? days[appointment.dayIndex] : null;
+
+  const acceptBooking = () => {
+    if (!slot) {
+      return;
+    }
+    setAppointment({
+      doctorId,
+      treatmentId,
+      dayIndex,
+      slot,
+      status: "pending",
+    });
+    setConfirmOpen(false);
+    setSlot(null);
+  };
+
+  // Missing input is not a dead end: point the user at the section that needs it.
+  const requestSchedule = () => {
+    if (!slot) {
+      setSlotWarning(true);
+      scrollRef.current?.scrollTo({
+        y: Math.max(scheduleY - spacing.xl, 0),
+        animated: true,
+      });
+      return;
+    }
+    setConfirmOpen(true);
+  };
+
   return (
-    <ScrollView style={s.screen} contentContainerStyle={s.content}>
+    <>
+      <ScrollView
+        ref={scrollRef}
+        style={s.screen}
+        contentContainerStyle={s.content}
+      >
       <Stack.Screen
         options={{
           title: "LuxeDerm",
@@ -101,6 +158,24 @@ export default function User() {
           ),
         }}
       />
+
+      {appointment && appointmentDoctor && appointmentTreatment && appointmentDay ? (
+        <View style={s.appointmentCard}>
+          <View style={s.appointmentHead}>
+            <Text style={s.appointmentTitle}>Your appointment</Text>
+            <View style={s.statusPill}>
+              <Text style={s.statusText}>{appointment.status}</Text>
+            </View>
+          </View>
+          <Text style={s.appointmentDoctor}>
+            {appointmentDoctor.name} — {appointmentTreatment.name}
+          </Text>
+          <Text style={s.appointmentMeta}>
+            {appointmentDay.day}, {appointmentDay.date} {appointmentDay.month} at{" "}
+            {appointment.slot}
+          </Text>
+        </View>
+      ) : null}
 
       <Text style={s.pageTitle}>Book a treatment</Text>
 
@@ -167,62 +242,83 @@ export default function User() {
         </>
       )}
 
-      <View style={[s.sectionHeader, medium && s.centeredRowInline]}>
-        <MaterialDesignIcons
-          name="calendar-month"
-          size={18}
-          color={colors.tanDark}
-        />
-        <Text style={s.sectionLabel}>Schedule — next week</Text>
-      </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={[s.dayRow, medium && s.centeredRow]}
+      <View
+        style={s.scheduleSection}
+        onLayout={(e) => setScheduleY(e.nativeEvent.layout.y)}
       >
-        {days.map((d, i) => {
-          const active = i === dayIndex;
-          return (
-            <Pressable
-              key={`${d.day}-${d.date}`}
-              style={[s.dayCard, active && s.dayCardActive]}
-              onPress={() => {
-                setDayIndex(i);
-                setSlot(null);
-              }}
-            >
-              <Text style={[s.dayName, active && s.dayTextActive]}>
-                {d.day}
-              </Text>
-              <Text style={[s.dayDate, active && s.dayTextActive]}>
-                {d.date}
-              </Text>
-              <Text style={[s.dayMonth, active && s.dayTextActive]}>
-                {d.month}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+        {slotWarning ? (
+          <View style={s.warningBox}>
+            <MaterialDesignIcons
+              name="alert-circle-outline"
+              size={18}
+              color={colors.tanDark}
+            />
+            <Text style={s.warningText}>Select a time slot to continue.</Text>
+          </View>
+        ) : null}
 
-      <View style={[s.slotRow, medium && s.centeredRowInline]}>
-        {timeSlots.map((t) => {
-          const active = t === slot;
-          return (
-            <Pressable
-              key={t}
-              style={[s.slot, active && s.slotActive]}
-              onPress={() => setSlot(t)}
-            >
-              <MaterialDesignIcons
-                name="clock-outline"
-                size={14}
-                color={active ? colors.white : colors.body}
-              />
-              <Text style={[s.slotText, active && s.slotTextActive]}>{t}</Text>
-            </Pressable>
-          );
-        })}
+        <View style={[s.sectionHeader, medium && s.centeredRowInline]}>
+          <MaterialDesignIcons
+            name="calendar-month"
+            size={18}
+            color={colors.tanDark}
+          />
+          <Text style={s.sectionLabel}>Schedule — next week</Text>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={[s.dayRow, medium && s.centeredRow]}
+        >
+          {days.map((d, i) => {
+            const active = i === dayIndex;
+            return (
+              <Pressable
+                key={`${d.day}-${d.date}`}
+                style={[s.dayCard, active && s.dayCardActive]}
+                onPress={() => {
+                  setDayIndex(i);
+                  setSlot(null);
+                }}
+              >
+                <Text style={[s.dayName, active && s.dayTextActive]}>
+                  {d.day}
+                </Text>
+                <Text style={[s.dayDate, active && s.dayTextActive]}>
+                  {d.date}
+                </Text>
+                <Text style={[s.dayMonth, active && s.dayTextActive]}>
+                  {d.month}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+
+        <View style={[s.slotRow, medium && s.centeredRowInline]}>
+          {timeSlots.map((t) => {
+            const active = t === slot;
+            return (
+              <Pressable
+                key={t}
+                style={[s.slot, active && s.slotActive]}
+                onPress={() => {
+                  setSlot(t);
+                  setSlotWarning(false);
+                }}
+              >
+                <MaterialDesignIcons
+                  name="clock-outline"
+                  size={14}
+                  color={active ? colors.white : colors.body}
+                />
+                <Text style={[s.slotText, active && s.slotTextActive]}>
+                  {t}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
       </View>
 
       <View style={s.infoCard}>
@@ -247,7 +343,50 @@ export default function User() {
           ) : null}
         </View>
       </View>
-    </ScrollView>
+      <Pressable style={s.scheduleButton} onPress={requestSchedule}>
+        <Text style={s.scheduleButtonText}>Schedule appointment</Text>
+      </Pressable>
+      </ScrollView>
+
+      <Modal
+        visible={confirmOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setConfirmOpen(false)}
+      >
+        <View style={s.modalOverlay}>
+          <View style={s.modalCard}>
+            <Text style={s.modalTitle}>Confirm your appointment</Text>
+            <View style={s.modalRows}>
+              <Text style={s.modalRowLabel}>Doctor</Text>
+              <Text style={s.modalRowValue}>{doctor.name}</Text>
+              <Text style={s.modalRowLabel}>Treatment</Text>
+              <Text style={s.modalRowValue}>{treatment.name}</Text>
+              <Text style={s.modalRowLabel}>Date</Text>
+              <Text style={s.modalRowValue}>
+                {selectedDay.day}, {selectedDay.date} {selectedDay.month}
+              </Text>
+              <Text style={s.modalRowLabel}>Time</Text>
+              <Text style={s.modalRowValue}>{slot}</Text>
+            </View>
+            <Text style={s.modalHint}>
+              Are you sure about these details?
+            </Text>
+            <View style={s.modalActions}>
+              <Pressable
+                style={s.modalCancel}
+                onPress={() => setConfirmOpen(false)}
+              >
+                <Text style={s.modalCancelText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={s.modalAccept} onPress={acceptBooking}>
+                <Text style={s.modalAcceptText}>Accept</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 }
 
@@ -385,6 +524,23 @@ const s = StyleSheet.create({
     alignItems: "center",
     gap: spacing.sm,
   },
+  scheduleSection: { gap: spacing.lg },
+  warningBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.tanDark,
+    borderRadius: radius.md,
+    backgroundColor: colors.blushSoft,
+  },
+  warningText: {
+    flex: 1,
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.small,
+    color: colors.inkSoft,
+  },
 
   doctorList: { gap: spacing.sm },
   doctorCard: {
@@ -518,5 +674,128 @@ const s = StyleSheet.create({
     fontFamily: fonts.body,
     fontSize: fontSize.small,
     color: colors.muted,
+  },
+
+  appointmentCard: {
+    padding: spacing.xl,
+    gap: spacing.sm,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.ink,
+    borderBottomWidth: 4,
+    borderRadius: radius.md,
+  },
+  appointmentHead: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: spacing.sm,
+  },
+  appointmentTitle: {
+    fontFamily: fonts.heading,
+    fontSize: fontSize.h3,
+    color: colors.inkSoft,
+  },
+  appointmentDoctor: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.base,
+    color: colors.inkSoft,
+  },
+  appointmentMeta: {
+    fontFamily: fonts.body,
+    fontSize: fontSize.small,
+    color: colors.muted,
+  },
+  statusPill: {
+    backgroundColor: colors.tan,
+    borderRadius: radius.pill,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.md,
+  },
+  statusText: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.caption,
+    color: colors.white,
+    textTransform: "capitalize",
+  },
+
+  scheduleButton: {
+    alignItems: "center",
+    paddingVertical: spacing.md,
+    borderRadius: radius.pill,
+    backgroundColor: colors.tan,
+  },
+  scheduleButtonText: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.base,
+    color: colors.white,
+  },
+
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    padding: spacing.xl,
+    backgroundColor: "rgba(52, 52, 44, 0.4)",
+  },
+  modalCard: {
+    gap: spacing.md,
+    padding: spacing.xl,
+    backgroundColor: colors.white,
+    borderRadius: radius.md,
+  },
+  modalTitle: {
+    fontFamily: fonts.heading,
+    fontSize: fontSize.h3,
+    color: colors.inkSoft,
+  },
+  modalRows: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    rowGap: spacing.xs,
+    columnGap: spacing.md,
+  },
+  modalRowLabel: {
+    width: 88,
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.small,
+    color: colors.muted,
+  },
+  modalRowValue: {
+    fontFamily: fonts.body,
+    fontSize: fontSize.small,
+    color: colors.inkSoft,
+  },
+  modalHint: {
+    fontFamily: fonts.body,
+    fontSize: fontSize.small,
+    color: colors.body,
+  },
+  modalActions: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: spacing.sm,
+  },
+  modalCancel: {
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.line,
+  },
+  modalCancelText: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.small,
+    color: colors.inkSoft,
+  },
+  modalAccept: {
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.pill,
+    backgroundColor: colors.tan,
+  },
+  modalAcceptText: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.small,
+    color: colors.white,
   },
 });
