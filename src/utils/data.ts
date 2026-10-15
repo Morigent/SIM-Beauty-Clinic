@@ -134,3 +134,36 @@ export const DOCTORS: Doctor[] = [
     treatmentIds: ["microneedling", "dermaplaning", "hydrafacial"],
   },
 ];
+
+export const TIME_SLOTS = ["09:00", "10:30", "12:00", "13:30", "15:00", "16:30"];
+
+export interface BookedSlot {
+  doctorId: string;
+  // ponytail: offset from today (0..6). Swap for absolute dates with a backend.
+  dayOffset: number;
+  time: string;
+}
+
+export interface DoctorOffDay {
+  doctorId: string;
+  dayOffset: number;
+}
+
+// ponytail: dummy bookings in memory; reload resets.
+export const BOOKED_SLOTS: BookedSlot[] = [
+  // Dr. Ava Chen — day 1 fully booked, day 3 morning taken.
+  ...TIME_SLOTS.map((time) => ({ doctorId: "ava", dayOffset: 1, time })),
+  { doctorId: "ava", dayOffset: 3, time: "09:00" },
+  // Dr. Noah Patel — day 4 afternoon taken.
+  { doctorId: "noah", dayOffset: 4, time: "15:00" },
+  { doctorId: "noah", dayOffset: 4, time: "16:30" },
+];
+
+// Whole days off (break / leave). A day with no slots left is also hidden by the UI.
+export const DOCTOR_OFF_DAYS: DoctorOffDay[] = [
+  { doctorId: "noah", dayOffset: 2 },
+  { doctorId: "mia", dayOffset: 0 },
+  { doctorId: "mia", dayOffset: 1 },
+  // Dr. Liam Kim — off the whole week: demonstrates the "not available" notice.
+  ...Array.from({ length: 7 }, (_, dayOffset) => ({ doctorId: "liam", dayOffset })),
+];

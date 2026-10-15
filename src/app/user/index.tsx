@@ -1,3 +1,5 @@
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import { Stack, router } from "expo-router";
 import { useState } from "react";
 import {
   Pressable,
@@ -5,13 +7,21 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
 } from "react-native";
-import { Stack, router } from "expo-router";
-import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
-import { colors, fonts, fontSize, radius, spacing } from "../../theme/style";
-import { DOCTORS, TREATMENTS, currentUser, type Doctor, type Treatment } from "../../utils/data";
+import { colors, fontSize, fonts, radius, spacing } from "../../theme/style";
+import {
+  DOCTORS,
+  TREATMENTS,
+  currentUser,
+  type Doctor,
+  type Treatment,
+} from "../../utils/data";
 
 type Mode = "doctor" | "treatment";
+
+// Above this width the layout gets desktop-style alignment; below it stays mobile.
+const MEDIUM_SCREEN = 768;
 
 const timeSlots = ["09:00", "10:30", "12:00", "13:30", "15:00", "16:30"];
 
@@ -34,6 +44,9 @@ export default function User() {
   const [dayIndex, setDayIndex] = useState(0);
   const [slot, setSlot] = useState<string | null>(null);
 
+  const { width } = useWindowDimensions();
+  const medium = width >= MEDIUM_SCREEN;
+
   const days = nextWeekDays();
   const doctor = DOCTORS.find((d) => d.id === doctorId)!;
   const treatment = TREATMENTS.find((t) => t.id === treatmentId)!;
@@ -49,16 +62,18 @@ export default function User() {
 
   const pickTreatment = (id: string) => {
     setTreatmentId(id);
-    if (!DOCTORS.some((d) => d.id === doctorId && d.treatmentIds.includes(id))) {
+    if (
+      !DOCTORS.some((d) => d.id === doctorId && d.treatmentIds.includes(id))
+    ) {
       setDoctorId(DOCTORS.find((d) => d.treatmentIds.includes(id))!.id);
     }
   };
 
   const doctorTreatments = TREATMENTS.filter((t) =>
-    doctor.treatmentIds.includes(t.id)
+    doctor.treatmentIds.includes(t.id),
   );
   const capableDoctors = DOCTORS.filter((d) =>
-    d.treatmentIds.includes(treatmentId)
+    d.treatmentIds.includes(treatmentId),
   );
 
   const selectedDay = days[dayIndex];
@@ -73,9 +88,7 @@ export default function User() {
           headerTintColor: colors.inkSoft,
           headerRight: () => (
             <Pressable
-              onPress={() =>
-                router.push(currentUser ? "/profile" : "/sign-in")
-              }
+              onPress={() => router.push(currentUser ? "/profile" : "/sign-in")}
               accessibilityLabel="Profile"
               style={s.headerButton}
             >
@@ -91,16 +104,22 @@ export default function User() {
 
       <Text style={s.pageTitle}>Book a treatment</Text>
 
-      <View style={s.segmented}>
+      <View style={[s.segmented, medium && s.segmentedMedium]}>
         {(["doctor", "treatment"] as Mode[]).map((m) => {
           const active = m === mode;
           return (
             <Pressable
               key={m}
-              style={[s.segment, active && s.segmentActive]}
+              style={[s.segment, active && s.segmentActive, medium && s.segmentMedium]}
               onPress={() => setMode(m)}
             >
-              <Text style={[s.segmentText, active && s.segmentTextActive]}>
+              <Text
+                style={[
+                  s.segmentText,
+                  active && s.segmentTextActive,
+                  medium && s.segmentTextMedium,
+                ]}
+              >
                 {m === "doctor" ? "By doctor" : "By treatment"}
               </Text>
             </Pressable>
@@ -117,20 +136,26 @@ export default function User() {
             onSelect={pickDoctor}
           />
 
-          <Text style={s.sectionLabel}>Treatments this doctor offers</Text>
+          <Text style={[s.sectionLabel, medium && s.centeredLabel]}>
+            Treatments this doctor offers
+          </Text>
           <TreatmentPicker
             treatments={doctorTreatments}
             selectedId={treatmentId}
             onSelect={pickTreatment}
+            center={medium}
           />
         </>
       ) : (
         <>
-          <Text style={s.sectionLabel}>Select treatment</Text>
+          <Text style={[s.sectionLabel, medium && s.centeredLabel]}>
+            Select treatment
+          </Text>
           <TreatmentPicker
             treatments={TREATMENTS}
             selectedId={treatmentId}
             onSelect={pickTreatment}
+            center={medium}
           />
 
           <Text style={s.sectionLabel}>Doctors who offer this treatment</Text>
@@ -142,7 +167,7 @@ export default function User() {
         </>
       )}
 
-      <View style={s.sectionHeader}>
+      <View style={[s.sectionHeader, medium && s.centeredRowInline]}>
         <MaterialDesignIcons
           name="calendar-month"
           size={18}
@@ -153,7 +178,7 @@ export default function User() {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={s.dayRow}
+        contentContainerStyle={[s.dayRow, medium && s.centeredRow]}
       >
         {days.map((d, i) => {
           const active = i === dayIndex;
@@ -166,8 +191,12 @@ export default function User() {
                 setSlot(null);
               }}
             >
-              <Text style={[s.dayName, active && s.dayTextActive]}>{d.day}</Text>
-              <Text style={[s.dayDate, active && s.dayTextActive]}>{d.date}</Text>
+              <Text style={[s.dayName, active && s.dayTextActive]}>
+                {d.day}
+              </Text>
+              <Text style={[s.dayDate, active && s.dayTextActive]}>
+                {d.date}
+              </Text>
               <Text style={[s.dayMonth, active && s.dayTextActive]}>
                 {d.month}
               </Text>
@@ -176,7 +205,7 @@ export default function User() {
         })}
       </ScrollView>
 
-      <View style={s.slotRow}>
+      <View style={[s.slotRow, medium && s.centeredRowInline]}>
         {timeSlots.map((t) => {
           const active = t === slot;
           return (
@@ -212,7 +241,8 @@ export default function User() {
           <Text style={s.infoMetaText}>{treatment.price}</Text>
           {slot ? (
             <Text style={s.infoMetaText}>
-              {selectedDay.day}, {selectedDay.date} {selectedDay.month} at {slot}
+              {selectedDay.day}, {selectedDay.date} {selectedDay.month} at{" "}
+              {slot}
             </Text>
           ) : null}
         </View>
@@ -249,9 +279,7 @@ function DoctorPicker({
               <Text style={[s.doctorName, active && s.doctorTextActive]}>
                 {d.name}
               </Text>
-              <Text
-                style={[s.doctorSpecialty, active && s.doctorTextActive]}
-              >
+              <Text style={[s.doctorSpecialty, active && s.doctorTextActive]}>
                 {d.specialty}
               </Text>
             </View>
@@ -266,16 +294,18 @@ function TreatmentPicker({
   treatments,
   selectedId,
   onSelect,
+  center = false,
 }: {
   treatments: Treatment[];
   selectedId: string;
   onSelect: (id: string) => void;
+  center?: boolean;
 }) {
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={s.treatmentRow}
+      contentContainerStyle={[s.treatmentRow, center && s.centeredRow]}
     >
       {treatments.map((t) => {
         const active = t.id === selectedId;
@@ -310,6 +340,7 @@ const s = StyleSheet.create({
     fontFamily: fonts.heading,
     fontSize: fontSize.h2,
     color: colors.inkSoft,
+    textAlign: "center",
   },
 
   segmented: {
@@ -333,6 +364,14 @@ const s = StyleSheet.create({
     color: colors.body,
   },
   segmentTextActive: { color: colors.white, fontFamily: fonts.bodyMedium },
+
+  segmentedMedium: { alignSelf: "flex-start", width: 340 },
+  segmentMedium: { paddingVertical: spacing.xs },
+  segmentTextMedium: { fontSize: fontSize.caption },
+
+  centeredLabel: { textAlign: "center" },
+  centeredRow: { flexGrow: 1, justifyContent: "center" },
+  centeredRowInline: { justifyContent: "center" },
 
   sectionLabel: {
     fontFamily: fonts.bodyMedium,
