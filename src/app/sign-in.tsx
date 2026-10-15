@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { Stack, router } from 'expo-router';
 import { styles, colors } from '../theme/style';
-
+import { login, signup } from '../utils/data';
 export default function SignIn() {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [name, setName] = useState('');
@@ -29,8 +29,17 @@ export default function SignIn() {
       showAlert('Please fill in all fields.');
       return;
     }
-    // No backend yet — return to the landing page.
-    router.replace('/');
+    if (isLogin) {
+      const user = login(email, password);
+      if (!user) {
+        showAlert('Wrong email or password.');
+        return;
+      }
+      router.replace('/user');
+    } else {
+      signup(name, email, password);
+      router.replace('/profile');
+    }
   };
 
   return (
@@ -98,6 +107,10 @@ export default function SignIn() {
             <Text style={styles.authLinkStrong}>{isLogin ? 'Create Account' : 'Log In'}</Text>
           </Text>
         </Pressable>
+
+        {isLogin && (
+          <Text style={styles.authLink}>Demo: ava@luxederm.com · ava123</Text>
+        )}
       </View>
     </KeyboardAvoidingView>
   );
