@@ -11,7 +11,7 @@ $slides = [
         'eyebrow' => 'Perawatan personal',
         'title' => 'Kulit sehat, bersinar alami',
         'description' => 'Temukan perawatan yang tepat untuk kebutuhan kulit Anda bersama tenaga profesional kami.',
-        'image' => 'image/hero_woman.jpg',
+        'image' => '../assets/images/hero_woman.jpg',
         'image_alt' => 'Perawatan kecantikan untuk kulit sehat',
         'badge' => 'Konsultasi tersedia',
         'action' => 'Lihat layanan',
@@ -21,7 +21,7 @@ $slides = [
         'eyebrow' => 'Ditangani tenaga ahli',
         'title' => 'Rawat diri dengan percaya diri',
         'description' => 'Konsultasikan tujuan perawatan Anda dan dapatkan rekomendasi dari dokter klinik.',
-        'image' => 'image/doctor.jpg',
+        'image' => '../assets/images/doctor.jpg',
         'image_alt' => 'Dokter klinik kecantikan',
         'badge' => 'Dokter berpengalaman',
         'action' => 'Kenali dokter',
@@ -31,7 +31,7 @@ $slides = [
         'eyebrow' => 'Teknologi dan kenyamanan',
         'title' => 'Waktunya memberi perhatian pada kulit',
         'description' => 'Pilih dari rangkaian layanan kulit yang dirancang untuk menemani perjalanan perawatan Anda.',
-        'image' => 'src/treatment.jpg',
+        'image' => '../assets/images/treatment.jpg',
         'image_alt' => 'Perawatan kulit di klinik',
         'badge' => 'Layanan pilihan',
         'action' => 'Jelajahi perawatan',
@@ -45,28 +45,28 @@ $doctors = [
         'specialty' => 'Spesialis Kulit',
         'patients' => '1.5k+ pasien',
         'status' => 'available',
-        'image' => 'image/D1.jpg',
+        'image' => '../assets/images/D1.jpg',
     ],
     [
         'name' => 'Dr. Diandra Pratama',
         'specialty' => 'Sp. Kecantikan',
         'patients' => '1.2k+ pasien',
         'status' => 'available',
-        'image' => 'src/doctor.jpg',
+        'image' => '../assets/images/doctor.jpg',
     ],
     [
         'name' => 'Dr. Candra Wijaya',
         'specialty' => 'Sp. Estetika',
         'patients' => '1.8k+ pasien',
         'status' => 'unavailable',
-        'image' => 'image/D3.jpg',
+        'image' => '../assets/images/D3.jpg',
     ],
     [
         'name' => 'Dr. Mavendra',
         'specialty' => 'Sp. Dermatologi',
         'patients' => '1.5k+ pasien',
         'status' => 'available',
-        'image' => 'image/D2.jpg',
+        'image' => '../assets/images/D2.jpg',
     ],
 ];
 
@@ -317,7 +317,7 @@ $services = [
                 </aside>
                 <div class="service-content" id="service-content" aria-live="polite">
                     <div class="service-img-wrap">
-                        <img src="src/treatment.jpg" alt="Perawatan kulit di klinik" class="service-img">
+                        <img src="../assets/images/fas.png" alt="Perawatan kulit di klinik" class="service-img">
                     </div>
                     <div class="service-desc-card">
                         <h3 id="service-title"><?= e($services[0]['name']) ?></h3>
