@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Klinik Kecantikan — Perawatan kulit sehat, glowing alami bersama dokter terpercaya.">
+    <title>Week 1 — Klinik Kecantikan (HTML & CSS Native)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Style CSS Murni (Week 1) -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <!-- Header / Navigasi -->
+    <header id="header">
+        <a href="#hero" class="logo" aria-label="Beranda Klinik">
+            <span class="logo-icon" aria-hidden="true">&#9829;</span>
+            <span class="logo-text">Klinik</span>
+        </a>
+        <nav aria-label="Navigasi Utama">
+            <a href="#hero" class="nav-link active">Beranda</a>
+            <a href="#doctors" class="nav-link">Dokter</a>
+            <a href="#services" class="nav-link">Layanan</a>
+            <a href="#review" class="nav-link">Tentang</a>
+        </nav>
+        <a href="#services" class="btn-header">Buat Janji</a>
+    </header>
+
+    <!-- Konten Utama -->
+    <main>
+        <!-- Section Hero -->
+        <section class="hero" id="hero">
+            <div class="hero-copy">
+                <span class="hero-eyebrow">Perawatan Personal</span>
+                <h1 class="hero-title">Kulit Sehat, Bersinar Alami</h1>
+                <p class="hero-desc">Temukan perawatan yang tepat untuk kebutuhan kulit Anda bersama tenaga profesional dan dokter berpengalaman kami.</p>
+                <a href="#services" class="btn-cta">Lihat Layanan &rarr;</a>
+            </div>
+
+            <div class="hero-image-wrap">
+                <img src="../assets/images/hero_woman.jpg" alt="Perawatan kecantikan wanita berseri" class="hero-img">
+            </div>
+
+            <div class="hero-categories">
+                <div class="category-badge">
+                    <div class="cat-icon">&#10003;</div>
+                    <span>Konsultasi Dokter</span>
+                </div>
+                <div class="category-badge">
+                    <div class="cat-icon">&#10024;</div>
+                    <span>Perawatan Kulit</span>
+                </div>
+                <div class="category-badge">
+                    <div class="cat-icon">&#128138;</div>
+                    <span>Obat & Skincare</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Dokter Kami -->
+        <section class="section" id="doctors">
+            <div class="section-header">
+                <h2 class="section-title">Dokter Kami</h2>
+                <div class="section-underline"></div>
+            </div>
+
+            <div class="doctors-grid">
+                <!-- Dokter 1 -->
+                <article class="doctor-card">
+                    <span class="doctor-num">1</span>
+                    <div class="doctor-img-wrap">
+                        <img src="../assets/images/D1.jpg" alt="Dr. Cevin" class="doctor-img">
+                    </div>
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">Dr. Cevin</h3>
+                        <p class="doctor-spec">Spesialis Kulit</p>
+                        <p class="doctor-stats">1.5k+ Pasien</p>
+                        <span class="status-badge status-available">Tersedia</span>
+                    </div>
+                </article>
+
+                <!-- Dokter 2 -->
+                <article class="doctor-card">
+                    <span class="doctor-num">2</span>
+                    <div class="doctor-img-wrap">
+                        <img src="../assets/images/doctor.jpg" alt="Dr. Diandra Pratama" class="doctor-img">
+                    </div>
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">Dr. Diandra Pratama</h3>
+                        <p class="doctor-spec">Sp. Kecantikan</p>
+                        <p class="doctor-stats">1.2k+ Pasien</p>
+                        <span class="status-badge status-available">Tersedia</span>
+                    </div>
+                </article>
+
+                <!-- Dokter 3 -->
+                <article class="doctor-card">
+                    <span class="doctor-num">3</span>
+                    <div class="doctor-img-wrap">
+                        <img src="../assets/images/D3.jpg" alt="Dr. Candra Wijaya" class="doctor-img">
+                    </div>
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">Dr. Candra Wijaya</h3>
+                        <p class="doctor-spec">Sp. Estetika</p>
+                        <p class="doctor-stats">1.8k+ Pasien</p>
+                        <span class="status-badge status-unavailable">Tidak Tersedia</span>
+                    </div>
+                </article>
+
+                <!-- Dokter 4 -->
+                <article class="doctor-card">
+                    <span class="doctor-num">4</span>
+                    <div class="doctor-img-wrap">
+                        <img src="../assets/images/D2.jpg" alt="Dr. Mavendra" class="doctor-img">
+                    </div>
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">Dr. Mavendra</h3>
+                        <p class="doctor-spec">Sp. Dermatologi</p>
+                        <p class="doctor-stats">1.5k+ Pasien</p>
+                        <span class="status-badge status-available">Tersedia</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Section Layanan Kami -->
+        <section class="section" id="services">
+            <div class="section-header">
+                <h2 class="section-title">Layanan Kami</h2>
+                <div class="section-underline"></div>
+            </div>
+
+            <div class="services-layout">
+                <aside class="services-sidebar">
+                    <div class="service-item active">
+                        <span>1. Facial Treatment</span>
+                        <span class="status-badge status-available">Tersedia</span>
+                    </div>
+                    <div class="service-item">
+                        <span>2. Skin Brightening</span>
+                        <span class="status-badge status-available">Tersedia</span>
+                    </div>
+                    <div class="service-item">
+                        <span>3. Anti-Aging</span>
+                        <span class="status-badge status-available">Terbatas</span>
+                    </div>
+                    <div class="service-item">
+                        <span>4. Laser Therapy</span>
+                        <span class="status-badge status-unavailable">Tidak Tersedia</span>
+                    </div>
+                </aside>
+
+                <div class="service-content-card">
+                    <div class="service-img-wrap">
+                        <img src="../assets/images/fas.png" alt="Facial Treatment" class="service-img">
+                    </div>
+                    <div class="service-desc-box">
+                        <h3 class="service-title">Facial Treatment</h3>
+                        <p class="service-desc">Membersihkan pori-pori secara mendalam, mengeksfoliasi sel kulit mati, melembapkan, serta merawat kulit wajah dengan tahapan teruji klinis yang disesuaikan oleh dokter ahli kami.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Review / Testimoni -->
+        <section class="review-section" id="review">
+            <article class="review-card">
+                <span class="quote-icon" aria-hidden="true">&ldquo;</span>
+                <blockquote class="review-text">
+                    "Perawatan yang sangat nyaman, penjelasan dokter mudah dipahami dan edukatif, serta staf pelayanannya ramah dan profesional. Kulit saya terasa jauh lebih bersih dan glowing."
+                </blockquote>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">F</div>
+                    <div class="reviewer-details">
+                        <p class="reviewer-name">Fatima Al-Said</p>
+                        <div class="stars" aria-label="Rating 5 dari 5 bintang">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <p class="footer-logo">Klinik Kecantikan</p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.88rem; margin-top: 0.5rem; max-width: 320px;">
+                    Solusi perawatan kecantikan kulit terpercaya dengan pendekatan medis modern dan personal.
+                </p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <p class="footer-col-title">Navigasi</p>
+                    <a href="#hero" class="footer-link">Beranda</a>
+                    <a href="#doctors" class="footer-link">Dokter Kami</a>
+                    <a href="#services" class="footer-link">Layanan Kami</a>
+                </div>
+                <div class="footer-col">
+                    <p class="footer-col-title">Hubungi Kami</p>
+                    <a href="mailto:info@klinik.com" class="footer-link">info@klinik.com</a>
+                    <a href="tel:+6212345678" class="footer-link">+62 123-456-78</a>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem;">Jl. Sehat Bersinar No. 10</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Klinik Kecantikan. All rights reserved. (Tugas Praktikum Week 1)</p>
+        </div>
+    </footer>
+
+</body>
+</html>

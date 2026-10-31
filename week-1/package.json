@@ -1,0 +1,12 @@
+{
+  "name": "clinic-week-1",
+  "version": "1.0.0",
+  "description": "Klinik Kecantikan - Week 1 (HTML & CSS Native / Tailwind Setup)",
+  "scripts": {
+    "build:css": "tailwindcss -i ./style.css -o ./output.css",
+    "watch:css": "tailwindcss -i ./style.css -o ./output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

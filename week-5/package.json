@@ -1,0 +1,12 @@
+{
+  "name": "clinic-week-5",
+  "version": "1.0.0",
+  "description": "Klinik Kecantikan - Week 5 (PHP Dynamic Server-Side)",
+  "scripts": {
+    "build:css": "tailwindcss -i ./style/clinic.css -o ./style/output.css",
+    "watch:css": "tailwindcss -i ./style/clinic.css -o ./style/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

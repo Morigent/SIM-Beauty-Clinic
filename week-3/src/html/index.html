@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Klinik Kecantikan — Perawatan kulit sehat, glowing alami bersama dokter terpercaya.">
+    <title>Week 3 — Klinik Kecantikan (JavaScript Interaktif)</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS dari folder src/css & src/dist -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../dist/output.css">
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            dark:    '#0d5c4e',
+                            DEFAULT: '#1a6b5e',
+                            mid:     '#2a8c7a',
+                            light:   '#4db6a0',
+                            pale:    '#d0eeea',
+                            bg:      '#e8f6f3',
+                        },
+                        orange: {
+                            DEFAULT: '#e8704a',
+                            light:   '#f0a080',
+                        },
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        sans:  ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="font-sans bg-[#f4f9f8] text-gray-800 overflow-x-hidden">
+
+    <!-- Header / Navigasi Interaktif -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-teal-pale/50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
+            <a href="#hero" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal to-teal-mid flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                    <span class="text-sm">&#9829;</span>
+                </div>
+                <span class="font-serif text-xl font-bold text-teal-dark tracking-wide">Klinik</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex gap-8">
+                <a href="#hero" class="text-sm font-semibold text-teal pb-1 border-b-2 border-teal">Beranda</a>
+                <a href="#doctors" class="text-sm font-medium text-gray-500 hover:text-teal pb-1 border-b-2 border-transparent hover:border-teal transition-all">Dokter</a>
+                <a href="#services" class="text-sm font-medium text-gray-500 hover:text-teal pb-1 border-b-2 border-transparent hover:border-teal transition-all">Layanan</a>
+                <a href="#review" class="text-sm font-medium text-gray-500 hover:text-teal pb-1 border-b-2 border-transparent hover:border-teal transition-all">Tentang</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <a href="#services" class="bg-gradient-to-r from-orange to-orange-light text-white px-5 py-2 rounded-full text-sm font-semibold shadow-md shadow-orange/30 hover:-translate-y-0.5 hover:shadow-lg transition-all">
+                    Buat Janji
+                </a>
+                <button id="hamburger" class="md:hidden p-2 rounded-lg text-teal-dark hover:bg-teal-bg focus:outline-none" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-teal-pale px-6 py-4 space-y-3">
+            <a href="#hero" class="mobile-nav-link block text-sm font-medium text-gray-700 hover:text-teal">Beranda</a>
+            <a href="#doctors" class="mobile-nav-link block text-sm font-medium text-gray-700 hover:text-teal">Dokter</a>
+            <a href="#services" class="mobile-nav-link block text-sm font-medium text-gray-700 hover:text-teal">Layanan</a>
+            <a href="#review" class="mobile-nav-link block text-sm font-medium text-gray-700 hover:text-teal">Tentang</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section dengan Interaktif Carousel -->
+        <section id="hero" class="relative overflow-hidden bg-gradient-to-br from-[#e8f6f3] via-[#b2ddd5] to-teal py-16 px-6 md:px-12">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1.2fr_auto_1fr] items-center gap-10">
+                <!-- Left: Copywriting + Carousel Dots -->
+                <div class="flex flex-col gap-4">
+                    <span id="hero-eyebrow" class="text-xs font-bold uppercase tracking-wider text-teal-dark">Perawatan Personal</span>
+                    <h1 id="hero-title" class="font-serif text-4xl md:text-5xl font-bold text-teal-dark leading-tight">
+                        Kulit Sehat,<br>Bersinar Alami
+                    </h1>
+                    <p id="hero-desc" class="text-teal-dark/90 text-sm md:text-base leading-relaxed max-w-lg">
+                        Temukan perawatan yang tepat untuk kebutuhan kulit Anda bersama tenaga profesional dan dokter berpengalaman kami.
+                    </p>
+
+                    <!-- Indikator Carousel Dot (Interaktif JS) -->
+                    <div class="flex items-center gap-2 pt-1" aria-label="Carousel Indicator">
+                        <button type="button" class="hero-dot w-6 h-2.5 rounded-full bg-teal-dark transition-all duration-300" aria-label="Slide 1"></button>
+                        <button type="button" class="hero-dot w-2.5 h-2.5 rounded-full bg-teal/30 hover:bg-teal-mid transition-all duration-300" aria-label="Slide 2"></button>
+                        <button type="button" class="hero-dot w-2.5 h-2.5 rounded-full bg-teal/30 hover:bg-teal-mid transition-all duration-300" aria-label="Slide 3"></button>
+                    </div>
+
+                    <div class="pt-2">
+                        <a href="#services" class="inline-flex items-center gap-2 bg-gradient-to-r from-orange to-orange-light text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg shadow-orange/30 hover:-translate-y-0.5 hover:shadow-xl transition-all">
+                            Lihat Layanan &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Center: Hero Image (Berganti via JS) -->
+                <div class="flex justify-center">
+                    <img id="hero-img" src="../../../assets/images/hero_woman.jpg" alt="Perawatan kulit klinik"
+                         class="w-64 h-96 object-cover object-top rounded-t-[130px] rounded-b-2xl shadow-2xl shadow-teal-dark/30 border-4 border-white/40">
+                </div>
+
+                <!-- Right: Category Badges -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3.5 bg-white/90 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-md border border-white/60">
+                        <div class="w-10 h-10 rounded-xl bg-teal-bg flex items-center justify-center text-teal font-bold">&#10003;</div>
+                        <span class="text-xs font-semibold text-teal-dark">Konsultasi Dokter</span>
+                    </div>
+                    <div class="flex items-center gap-3.5 bg-white/90 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-md border border-white/60">
+                        <div class="w-10 h-10 rounded-xl bg-teal-bg flex items-center justify-center text-teal font-bold">&#10024;</div>
+                        <span class="text-xs font-semibold text-teal-dark">Perawatan Kulit</span>
+                    </div>
+                    <div class="flex items-center gap-3.5 bg-white/90 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-md border border-white/60">
+                        <div class="w-10 h-10 rounded-xl bg-teal-bg flex items-center justify-center text-teal font-bold">&#128138;</div>
+                        <span class="text-xs font-semibold text-teal-dark">Obat & Skincare</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Doctors Section -->
+        <section id="doctors" class="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-teal-dark mb-3">Dokter Kami</h2>
+                <div class="w-14 h-1 bg-orange rounded-full mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Dokter 1 -->
+                <article class="relative bg-white rounded-2xl overflow-hidden border border-teal-pale shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group">
+                    <span class="absolute top-3 left-3 z-10 w-7 h-7 rounded-full bg-teal-dark text-white text-xs font-bold grid place-items-center">1</span>
+                    <div class="h-52 overflow-hidden bg-teal-bg/50">
+                        <img src="../../../assets/images/D1.jpg" alt="Dr. Cevin" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-4 border-t-2 border-teal-pale bg-gradient-to-b from-teal-bg/20 to-white">
+                        <h3 class="text-sm font-bold text-teal-dark">Dr. Cevin</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Spesialis Kulit</p>
+                        <p class="text-xs text-orange font-semibold mt-1">1.5k+ Pasien</p>
+                        <span class="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#dff5eb] text-[#17664f]">Tersedia</span>
+                    </div>
+                </article>
+
+                <!-- Dokter 2 -->
+                <article class="relative bg-white rounded-2xl overflow-hidden border border-teal-pale shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group">
+                    <span class="absolute top-3 left-3 z-10 w-7 h-7 rounded-full bg-teal-dark text-white text-xs font-bold grid place-items-center">2</span>
+                    <div class="h-52 overflow-hidden bg-teal-bg/50">
+                        <img src="../../../assets/images/doctor.jpg" alt="Dr. Diandra Pratama" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-4 border-t-2 border-teal-pale bg-gradient-to-b from-teal-bg/20 to-white">
+                        <h3 class="text-sm font-bold text-teal-dark">Dr. Diandra Pratama</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Sp. Kecantikan</p>
+                        <p class="text-xs text-orange font-semibold mt-1">1.2k+ Pasien</p>
+                        <span class="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#dff5eb] text-[#17664f]">Tersedia</span>
+                    </div>
+                </article>
+
+                <!-- Dokter 3 -->
+                <article class="relative bg-white rounded-2xl overflow-hidden border border-teal-pale shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group">
+                    <span class="absolute top-3 left-3 z-10 w-7 h-7 rounded-full bg-teal-dark text-white text-xs font-bold grid place-items-center">3</span>
+                    <div class="h-52 overflow-hidden bg-teal-bg/50">
+                        <img src="../../../assets/images/D3.jpg" alt="Dr. Candra Wijaya" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-4 border-t-2 border-teal-pale bg-gradient-to-b from-teal-bg/20 to-white">
+                        <h3 class="text-sm font-bold text-teal-dark">Dr. Candra Wijaya</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Sp. Estetika</p>
+                        <p class="text-xs text-orange font-semibold mt-1">1.8k+ Pasien</p>
+                        <span class="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#fde3e6] text-[#9b3543]">Tidak Tersedia</span>
+                    </div>
+                </article>
+
+                <!-- Dokter 4 -->
+                <article class="relative bg-white rounded-2xl overflow-hidden border border-teal-pale shadow-md hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group">
+                    <span class="absolute top-3 left-3 z-10 w-7 h-7 rounded-full bg-teal-dark text-white text-xs font-bold grid place-items-center">4</span>
+                    <div class="h-52 overflow-hidden bg-teal-bg/50">
+                        <img src="../../../assets/images/D2.jpg" alt="Dr. Mavendra" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-4 border-t-2 border-teal-pale bg-gradient-to-b from-teal-bg/20 to-white">
+                        <h3 class="text-sm font-bold text-teal-dark">Dr. Mavendra</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Sp. Dermatologi</p>
+                        <p class="text-xs text-orange font-semibold mt-1">1.5k+ Pasien</p>
+                        <span class="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#dff5eb] text-[#17664f]">Tersedia</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Services Section dengan Tab Interaktif JS -->
+        <section id="services" class="py-16 px-6 md:px-12 max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-teal-dark mb-3">Layanan Kami</h2>
+                <div class="w-14 h-1 bg-orange rounded-full mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6">
+                <!-- Sidebar Tombol Tab (Interaktif JS) -->
+                <aside class="flex flex-col gap-3">
+                    <button type="button" data-service-key="facial"
+                            class="service-tab-btn bg-teal text-white p-3.5 rounded-xl text-sm font-semibold shadow-md flex justify-between items-center transition-all text-left">
+                        <span>1. Facial Treatment</span>
+                        <span class="text-[11px] bg-white/20 px-2 py-0.5 rounded-full">Tersedia</span>
+                    </button>
+                    <button type="button" data-service-key="brightening"
+                            class="service-tab-btn bg-white border border-teal-pale text-gray-600 hover:text-teal hover:border-teal p-3.5 rounded-xl text-sm font-medium flex justify-between items-center transition-all text-left">
+                        <span>2. Skin Brightening</span>
+                        <span class="text-[11px] bg-teal-pale/50 text-teal-dark px-2 py-0.5 rounded-full">Tersedia</span>
+                    </button>
+                    <button type="button" data-service-key="antiaging"
+                            class="service-tab-btn bg-white border border-teal-pale text-gray-600 hover:text-teal hover:border-teal p-3.5 rounded-xl text-sm font-medium flex justify-between items-center transition-all text-left">
+                        <span>3. Anti-Aging</span>
+                        <span class="text-[11px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">Terbatas</span>
+                    </button>
+                    <button type="button" data-service-key="laser"
+                            class="service-tab-btn bg-white border border-teal-pale text-gray-600 hover:text-teal hover:border-teal p-3.5 rounded-xl text-sm font-medium flex justify-between items-center transition-all text-left">
+                        <span>4. Laser Therapy</span>
+                        <span class="text-[11px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full">Penuh</span>
+                    </button>
+                </aside>
+
+                <!-- Panel Konten yang Dinamis Berubah via JS -->
+                <div class="rounded-2xl overflow-hidden shadow-xl shadow-teal/10 border border-teal-pale bg-white flex flex-col">
+                    <div class="h-64 overflow-hidden bg-teal-bg">
+                        <img id="service-img" src="../../../assets/images/fas.png" alt="Facial Treatment" class="w-full h-full object-cover transition-opacity duration-300">
+                    </div>
+                    <div class="bg-teal p-6 text-white">
+                        <h3 id="service-title" class="font-serif text-xl font-bold mb-2">Facial Treatment</h3>
+                        <p id="service-desc" class="text-white/90 text-sm leading-relaxed">
+                            Membersihkan pori-pori secara mendalam, mengeksfoliasi sel kulit mati, melembapkan, serta merawat kulit wajah dengan tahapan teruji klinis yang disesuaikan oleh dokter ahli kami.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonial Section -->
+        <section id="review" class="py-16 px-6 md:px-12 max-w-7xl mx-auto flex justify-end">
+            <article class="bg-white rounded-2xl p-8 border border-teal-pale shadow-lg max-w-2xl">
+                <span class="font-serif text-4xl text-orange leading-none block mb-2">&ldquo;</span>
+                <p class="text-gray-700 italic text-base leading-relaxed mb-4">
+                    "Perawatan yang sangat nyaman, penjelasan dokter mudah dipahami dan edukatif, serta staf pelayanannya ramah dan profesional. Kulit saya terasa jauh lebih bersih dan glowing."
+                </p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-teal text-white font-bold grid place-items-center">F</div>
+                    <div>
+                        <p class="font-bold text-teal-dark text-sm">Fatima Al-Said</p>
+                        <div class="text-amber-500 text-xs tracking-wider">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-teal-dark text-white pt-14 pb-8 border-t border-teal/40">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between gap-8 pb-10 border-b border-white/10">
+            <div>
+                <p class="font-serif text-2xl font-bold">Klinik Kecantikan</p>
+                <p class="text-white/70 text-sm mt-2 max-w-xs leading-relaxed">
+                    Solusi perawatan kecantikan kulit terpercaya dengan pendekatan medis modern dan personal.
+                </p>
+            </div>
+            <div class="flex gap-12">
+                <div class="flex flex-col gap-2">
+                    <p class="text-teal-pale font-bold text-sm mb-1">Navigasi</p>
+                    <a href="#hero" class="text-white/80 hover:text-orange-light text-sm">Beranda</a>
+                    <a href="#doctors" class="text-white/80 hover:text-orange-light text-sm">Dokter Kami</a>
+                    <a href="#services" class="text-white/80 hover:text-orange-light text-sm">Layanan Kami</a>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <p class="text-teal-pale font-bold text-sm mb-1">Hubungi Kami</p>
+                    <a href="mailto:info@klinik.com" class="text-white/80 hover:text-orange-light text-sm">info@klinik.com</a>
+                    <a href="tel:+6212345678" class="text-white/80 hover:text-orange-light text-sm">+62 123-456-78</a>
+                    <span class="text-white/60 text-xs">Jl. Sehat Bersinar No. 10</span>
+                </div>
+            </div>
+        </div>
+        <p class="text-center text-xs text-white/50 mt-6">&copy; 2026 Klinik Kecantikan. (Tugas Praktikum Week 3 — JavaScript DOM)</p>
+    </footer>
+
+    <!-- Script JavaScript dari folder src/js/ -->
+    <script src="../js/script.js"></script>
+</body>
+</html>

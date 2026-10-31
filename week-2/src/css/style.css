@@ -1,0 +1,13 @@
+/* =========================================================
+   WEEK 2: SRC/CSS/STYLE.CSS
+   Tailwind CSS Custom Input & Extensions
+   ========================================================= */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom utility tweaks */
+.hero-img-shape {
+    border-radius: 130px 130px 18px 18px;
+}

@@ -1,0 +1,12 @@
+{
+  "name": "clinic-week-2",
+  "version": "1.0.0",
+  "description": "Klinik Kecantikan - Week 2 (Tailwind CSS Framework)",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/css/style.css -o ./src/dist/output.css",
+    "watch:css": "tailwindcss -i ./src/css/style.css -o ./src/dist/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

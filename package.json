@@ -1,0 +1,16 @@
+{
+  "name": "clinic",
+  "version": "1.0.0",
+  "description": "Klinik Kecantikan - SIM Beauty Clinic Multi-Week Project",
+  "scripts": {
+    "build:week1": "npm --prefix week-1 run build:css",
+    "build:week2": "npm --prefix week-2 run build:css",
+    "build:week3": "npm --prefix week-3 run build:css",
+    "build:week4": "npm --prefix week-4 run build:css",
+    "build:week5": "npm --prefix week-5 run build:css",
+    "build:all": "npm run build:week1 && npm run build:week2 && npm run build:week3 && npm run build:week4 && npm run build:week5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
