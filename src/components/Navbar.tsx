@@ -24,7 +24,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: "home", label: "Home" },
   { key: "our-service", label: "Our Service" },
   { key: "testimonial", label: "Testimonial" },
-  { key: "special-offer", label: "Special Offer" },
+  { key: "doctors", label: "Doctors" },
   { key: "contact", label: "Contact" },
 ];
 

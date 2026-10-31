@@ -2,8 +2,8 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  Alert,
   Animated,
+  Linking,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Platform,
@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import Navbar from "../components/Navbar";
 import { colors, spacing, styles } from "../theme/style";
+import { DOCTORS } from "../utils/data";
 
 const SERVICES = [
   { id: "1", label: "Facial Treatment", emoji: "✨" },
@@ -68,57 +69,23 @@ const TESTIMONIALS = [
   },
 ];
 
-const SPECIAL_OFFERS = [
-  {
-    id: "1",
-    name: "Glow Starter",
-    tagline: "A gentle intro to your glow-up",
-    emoji: "🌱",
-    features: [
-      "1 facial per month",
-      "Skin consultation",
-      "Member-only discounts",
-    ],
-    price: "$49",
-    featured: false,
-  },
-  {
-    id: "2",
-    name: "Radiance Plus",
-    tagline: "Our most-loved monthly plan",
-    emoji: "✨",
-    features: ["2 facials per month", "LED light therapy", "Priority booking"],
-    price: "$89",
-    featured: true,
-  },
-  {
-    id: "3",
-    name: "Luxe Signature",
-    tagline: "Complete care, head to toe",
-    emoji: "👑",
-    features: ["Unlimited facials", "Body sculpting", "24/7 concierge"],
-    price: "$149",
-    featured: false,
-  },
-];
-
 export default function Index() {
   const [activeKey, setActiveKey] = useState("home");
   const { width } = useWindowDimensions();
   const cardWidth = width * 0.45;
-  const offerCardWidth = Math.min(
-    (width - spacing.lg * 2 - spacing.md * 2) / 3 - 4,
-    200,
-  );
   const isDesktop = width >= 768;
+  const isWideHero = width >= 1024;
 
   const servicesAtEnd = useRef(false);
   const testimonialsAtEnd = useRef(false);
+  const doctorsAtEnd = useRef(false);
 
   const servicesListRef = useRef<ScrollView>(null);
   const testimonialsListRef = useRef<ScrollView>(null);
   const servicesSectionRef = useRef<View>(null);
   const testimonialsSectionRef = useRef<View>(null);
+  const doctorsListRef = useRef<ScrollView>(null);
+  const doctorsSectionRef = useRef<View>(null);
 
   const scrollRef = useRef<ScrollView>(null);
   // Store Y offset for each section
@@ -152,18 +119,26 @@ export default function Index() {
     }).start();
   };
 
-  // Animated value for the flanking lines in "Special Offers"
-  const specialOfferLineAnim = useRef(new Animated.Value(0)).current;
-  const specialOfferLinesAnimated = useRef(false);
+  // Doctor cards: staggered reveal once the section scrolls into view.
+  const [doctorCardAnims] = useState(() =>
+    DOCTORS.map(() => new Animated.Value(0)),
+  );
+  const doctorsRevealed = useRef(false);
 
-  const animateSpecialOfferLines = () => {
-    if (specialOfferLinesAnimated.current) return;
-    specialOfferLinesAnimated.current = true;
-    Animated.timing(specialOfferLineAnim, {
-      toValue: 1,
-      duration: 600,
-      useNativeDriver: true,
-    }).start();
+  const revealDoctors = () => {
+    if (doctorsRevealed.current) return;
+    doctorsRevealed.current = true;
+    Animated.stagger(
+      90,
+      doctorCardAnims.map((value) =>
+        Animated.spring(value, {
+          toValue: 1,
+          speed: 14,
+          bounciness: 6,
+          useNativeDriver: true,
+        }),
+      ),
+    ).start();
   };
 
   // Sections in top-to-bottom order used for scroll-spy.
@@ -171,7 +146,7 @@ export default function Index() {
     "home",
     "our-service",
     "testimonial",
-    "special-offer",
+    "doctors",
     "contact",
   ];
   // Distance from the top where a section is considered "active".
@@ -244,6 +219,7 @@ export default function Index() {
     const cleanups = [
       bindWheel(servicesSectionRef, servicesListRef, servicesAtEnd),
       bindWheel(testimonialsSectionRef, testimonialsListRef, testimonialsAtEnd),
+      bindWheel(doctorsSectionRef, doctorsListRef, doctorsAtEnd),
     ];
     return () => cleanups.forEach((cleanup) => cleanup && cleanup());
   }, [isDesktop]);
@@ -252,6 +228,10 @@ export default function Index() {
     if (isProgrammaticScroll.current) return;
     const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent;
     const y = contentOffset.y;
+    const doctorsTop = sectionOffsets.current["doctors"];
+    if (doctorsTop !== undefined && y + layoutMeasurement.height >= doctorsTop - 40) {
+      revealDoctors();
+    }
     // When scrolled to the very bottom, the last section is active even if its
     // top never reaches the activation line (e.g. a short section near the end).
     const atBottom = y + layoutMeasurement.height >= contentSize.height - 1;
@@ -261,8 +241,13 @@ export default function Index() {
     setActiveKey((prev) => (prev === next ? prev : next));
   };
 
+
   const handleNavPress = (key: string) => {
     setActiveKey(key);
+    const doctorsIndex = SECTION_KEYS.indexOf("doctors");
+    if (SECTION_KEYS.indexOf(key) >= doctorsIndex) {
+      revealDoctors();
+    }
     const offset = sectionOffsets.current[key];
     if (offset !== undefined && scrollRef.current) {
       isProgrammaticScroll.current = true;
@@ -273,14 +258,10 @@ export default function Index() {
     }
   };
 
-  const handleChoosePlan = (name: string) => {
-    const message = `You selected the ${name} plan.`;
-    if (Platform.OS === "web") {
-      // react-native-web's Alert is a no-op; use the browser dialog instead.
-      window.alert(message);
-    } else {
-      Alert.alert("Plan selected", message);
-    }
+  const handleBookConsultation = () => {
+    Linking.openURL(
+      "mailto:hello@luxederm.id?subject=Consultation%20request&body=Hi%20LuxeDerm%2C%20I%27d%20like%20to%20book%20a%20consultation.",
+    );
   };
 
   const signInScale = useRef(new Animated.Value(1)).current;
@@ -324,25 +305,55 @@ export default function Index() {
         <View
           style={[
             styles.hero,
-            {
-              flexDirection: "column",
+            isWideHero && {
+              flexDirection: "row",
               alignItems: "center",
-              marginBottom: spacing.section,
+              gap: spacing.xl,
+              paddingTop: spacing.section,
             },
           ]}
           onLayout={(e) => {
             sectionOffsets.current["home"] = e.nativeEvent.layout.y;
           }}
         >
-          <Text style={styles.heroTitle}>
-            LoxeDerm Lorem Ipsum{"\n"}Sit dolor Amet
-          </Text>
-          <Image
-            style={styles.heroImageBlock}
-            contentFit="contain"
-            contentPosition="center"
-            source={require("../../assets/images/home_hero.png")}
-          />
+          <View style={[styles.heroCopy, isWideHero && { flex: 1 }]}>
+            <Text
+              accessibilityRole="header"
+              style={[
+                styles.heroTitle,
+                isWideHero && { fontSize: 60, lineHeight: 64 },
+              ]}
+            >
+              Healthy, glowing skin, on purpose.
+            </Text>
+            <Text style={styles.heroLead}>
+              LuxeDerm is a premium aesthetic clinic in South Jakarta —
+              certified specialists and advanced treatments for skin you can
+              see.
+            </Text>
+            <Pressable
+              accessibilityRole="button"
+              onPress={handleBookConsultation}
+              style={({ pressed }) => [
+                styles.heroCta,
+                pressed && { opacity: 0.85, transform: [{ scale: 0.98 }] },
+              ]}
+            >
+              <Text style={styles.heroCtaText}>Book a Consultation</Text>
+            </Pressable>
+            <Text style={styles.heroProof}>
+              Kemang, South Jakarta · By appointment
+            </Text>
+          </View>
+          <View
+            style={[styles.heroMedia, isWideHero && { flex: 1.15, marginTop: 0 }]}
+          >
+            <Image
+              style={styles.heroImage}
+              contentFit="cover"
+              source={require("../../assets/images/home_hero.png")}
+            />
+          </View>
         </View>
 
         {/* Our Services Section */}
@@ -577,16 +588,16 @@ export default function Index() {
           </ScrollView>
         </View>
 
-        {/* Special Offers Section */}
+        {/* Doctors Section */}
         <View
+          ref={doctorsSectionRef}
           style={{
             paddingTop: spacing.section,
             paddingBottom: spacing.xxl,
             marginTop: spacing.section,
           }}
           onLayout={(e) => {
-            sectionOffsets.current["special-offer"] = e.nativeEvent.layout.y;
-            animateSpecialOfferLines();
+            sectionOffsets.current["doctors"] = e.nativeEvent.layout.y;
           }}
         >
           <View
@@ -597,14 +608,8 @@ export default function Index() {
               paddingHorizontal: spacing.xl,
             }}
           >
-            <Animated.View
-              style={{
-                flex: 1,
-                height: 1,
-                backgroundColor: colors.line,
-                transform: [{ scaleX: specialOfferLineAnim }],
-                transformOrigin: "right",
-              }}
+            <View
+              style={{ flex: 1, height: 1, backgroundColor: colors.line }}
             />
             <Text
               style={[
@@ -612,16 +617,10 @@ export default function Index() {
                 { marginBottom: 0, paddingHorizontal: spacing.lg },
               ]}
             >
-              Special Offers
+              Our Doctors
             </Text>
-            <Animated.View
-              style={{
-                flex: 1,
-                height: 1,
-                backgroundColor: colors.line,
-                transform: [{ scaleX: specialOfferLineAnim }],
-                transformOrigin: "left",
-              }}
+            <View
+              style={{ flex: 1, height: 1, backgroundColor: colors.line }}
             />
           </View>
 
@@ -631,74 +630,65 @@ export default function Index() {
               { paddingHorizontal: spacing.xl, marginBottom: spacing.lg },
             ]}
           >
-            Limited-time packages to elevate your glow
+            Certified specialists who care for every skin type
           </Text>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: spacing.md,
-              paddingHorizontal: spacing.lg,
+          <ScrollView
+            ref={doctorsListRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: spacing.xl,
               paddingBottom: spacing.sm,
             }}
+            onScroll={(e) => {
+              doctorsAtEnd.current = isHorizontalAtEnd(e);
+            }}
+            scrollEventThrottle={16}
           >
-            {SPECIAL_OFFERS.map((plan) => (
-              <View
-                key={plan.id}
-                style={[styles.pricingCard, { width: offerCardWidth }]}
+            {DOCTORS.map((doctor, index) => (
+              <Animated.View
+                key={doctor.id}
+                style={{
+                  width: cardWidth,
+                  marginRight: spacing.lg,
+                  opacity: doctorCardAnims[index],
+                  transform: [
+                    {
+                      translateY: doctorCardAnims[index].interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [28, 0],
+                      }),
+                    },
+                  ],
+                }}
               >
-                <View
-                  style={[
-                    styles.pricingImageWrap,
-                    { alignItems: "center", justifyContent: "center" },
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={`View ${doctor.name}`}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/doctor",
+                      params: { id: doctor.id },
+                    })
+                  }
+                  style={({ pressed }) => [
+                    styles.serviceCard,
+                    { width: "100%", marginRight: 0 },
+                    pressed && { opacity: 0.85, transform: [{ scale: 0.96 }] },
                   ]}
                 >
-                  <Text style={{ fontSize: 32 }}>{plan.emoji}</Text>
-                </View>
-                <View style={styles.pricingBody}>
-                  <Text style={styles.pricingName}>{plan.name}</Text>
-                  <Text style={styles.pricingTagline}>{plan.tagline}</Text>
-                  {plan.features.map((feature) => (
-                    <View key={feature} style={styles.pricingFeatureRow}>
-                      <Text style={styles.pricingCheck}>✓</Text>
-                      <Text style={styles.pricingFeatureText}>{feature}</Text>
-                    </View>
-                  ))}
-                  <Text style={styles.pricingPrice}>
-                    {plan.price}
-                    <Text style={{ fontSize: 12, color: colors.muted }}>
-                      {" "}
-                      /mo
-                    </Text>
-                  </Text>
-                  <Pressable
-                    style={({ pressed }) => [
-                      plan.featured
-                        ? styles.pricingButtonFeatured
-                        : styles.buttonBlush,
-                      pressed && {
-                        opacity: 0.85,
-                        transform: [{ scale: 0.97 }],
-                      },
-                    ]}
-                    onPress={() => handleChoosePlan(plan.name)}
-                  >
-                    <Text
-                      style={{
-                        color: plan.featured ? colors.white : colors.inkSoft,
-                        fontWeight: "700",
-                        fontSize: 12,
-                      }}
-                    >
-                      Choose Plan
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
+                  <Image
+                    style={styles.doctorPhoto}
+                    source={doctor.image}
+                    contentFit="cover"
+                  />
+                  <Text style={styles.doctorName}>{doctor.name}</Text>
+                  <Text style={styles.doctorSpecialty}>{doctor.specialty}</Text>
+                </Pressable>
+              </Animated.View>
             ))}
-          </View>
+          </ScrollView>
         </View>
 
         {/* Contact Section */}
@@ -792,7 +782,7 @@ export default function Index() {
           <View style={styles.footerLinks}>
             <Text style={styles.footerLink}>Home</Text>
             <Text style={styles.footerLink}>Our Service</Text>
-            <Text style={styles.footerLink}>Special Offer</Text>
+            <Text style={styles.footerLink}>Doctors</Text>
             <Text style={styles.footerLink}>Contact</Text>
           </View>
         </View>

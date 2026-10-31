@@ -1,18 +1,11 @@
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { Stack, router } from "expo-router";
 import { useRef, useState } from "react";
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  useWindowDimensions,
-} from "react-native";
-import { colors, fontSize, fonts, radius, spacing } from "../../theme/style";
+import { Modal, Pressable, ScrollView, Text, View } from "react-native";
+import { colors, styles } from "../../theme/style";
 import {
   DOCTORS,
+  TIME_SLOTS,
   TREATMENTS,
   currentUser,
   type Doctor,
@@ -30,11 +23,6 @@ type Appointment = {
   slot: string;
   status: AppointmentStatus;
 };
-
-// Above this width the layout gets desktop-style alignment; below it stays mobile.
-const MEDIUM_SCREEN = 768;
-
-const timeSlots = ["09:00", "10:30", "12:00", "13:30", "15:00", "16:30"];
 
 function nextWeekDays(): { day: string; date: number; month: string }[] {
   return Array.from({ length: 7 }, (_, i) => {
@@ -60,8 +48,6 @@ export default function User() {
   const [scheduleY, setScheduleY] = useState(0);
 
   const scrollRef = useRef<ScrollView>(null);
-  const { width } = useWindowDimensions();
-  const medium = width >= MEDIUM_SCREEN;
 
   const days = nextWeekDays();
   const doctor = DOCTORS.find((d) => d.id === doctorId)!;
@@ -122,7 +108,7 @@ export default function User() {
     if (!slot) {
       setSlotWarning(true);
       scrollRef.current?.scrollTo({
-        y: Math.max(scheduleY - spacing.xl, 0),
+        y: Math.max(scheduleY - 24, 0),
         animated: true,
       });
       return;
@@ -132,11 +118,6 @@ export default function User() {
 
   return (
     <>
-      <ScrollView
-        ref={scrollRef}
-        style={s.screen}
-        contentContainerStyle={s.content}
-      >
       <Stack.Screen
         options={{
           title: "LuxeDerm",
@@ -145,9 +126,11 @@ export default function User() {
           headerTintColor: colors.inkSoft,
           headerRight: () => (
             <Pressable
-              onPress={() => router.push(currentUser ? "/profile" : "/sign-in")}
+              onPress={() =>
+                router.push(currentUser ? "/profile" : "/sign-in")
+              }
               accessibilityLabel="Profile"
-              style={s.headerButton}
+              style={styles.bookingHeaderButton}
             >
               <MaterialDesignIcons
                 name="account-circle-outline"
@@ -159,193 +142,195 @@ export default function User() {
         }}
       />
 
-      {appointment && appointmentDoctor && appointmentTreatment && appointmentDay ? (
-        <View style={s.appointmentCard}>
-          <View style={s.appointmentHead}>
-            <Text style={s.appointmentTitle}>Your appointment</Text>
-            <View style={s.statusPill}>
-              <Text style={s.statusText}>{appointment.status}</Text>
-            </View>
-          </View>
-          <Text style={s.appointmentDoctor}>
-            {appointmentDoctor.name} — {appointmentTreatment.name}
-          </Text>
-          <Text style={s.appointmentMeta}>
-            {appointmentDay.day}, {appointmentDay.date} {appointmentDay.month} at{" "}
-            {appointment.slot}
-          </Text>
-        </View>
-      ) : null}
-
-      <Text style={s.pageTitle}>Book a treatment</Text>
-
-      <View style={[s.segmented, medium && s.segmentedMedium]}>
-        {(["doctor", "treatment"] as Mode[]).map((m) => {
-          const active = m === mode;
-          return (
-            <Pressable
-              key={m}
-              style={[s.segment, active && s.segmentActive, medium && s.segmentMedium]}
-              onPress={() => setMode(m)}
-            >
-              <Text
-                style={[
-                  s.segmentText,
-                  active && s.segmentTextActive,
-                  medium && s.segmentTextMedium,
-                ]}
-              >
-                {m === "doctor" ? "By doctor" : "By treatment"}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
-
-      {mode === "doctor" ? (
-        <>
-          <Text style={s.sectionLabel}>Select doctor</Text>
-          <DoctorPicker
-            doctors={DOCTORS}
-            selectedId={doctorId}
-            onSelect={pickDoctor}
-          />
-
-          <Text style={[s.sectionLabel, medium && s.centeredLabel]}>
-            Treatments this doctor offers
-          </Text>
-          <TreatmentPicker
-            treatments={doctorTreatments}
-            selectedId={treatmentId}
-            onSelect={pickTreatment}
-            center={medium}
-          />
-        </>
-      ) : (
-        <>
-          <Text style={[s.sectionLabel, medium && s.centeredLabel]}>
-            Select treatment
-          </Text>
-          <TreatmentPicker
-            treatments={TREATMENTS}
-            selectedId={treatmentId}
-            onSelect={pickTreatment}
-            center={medium}
-          />
-
-          <Text style={s.sectionLabel}>Doctors who offer this treatment</Text>
-          <DoctorPicker
-            doctors={capableDoctors}
-            selectedId={doctorId}
-            onSelect={pickDoctor}
-          />
-        </>
-      )}
-
-      <View
-        style={s.scheduleSection}
-        onLayout={(e) => setScheduleY(e.nativeEvent.layout.y)}
+      <ScrollView
+        ref={scrollRef}
+        style={styles.bookingScreen}
+        contentContainerStyle={styles.bookingContent}
       >
-        {slotWarning ? (
-          <View style={s.warningBox}>
-            <MaterialDesignIcons
-              name="alert-circle-outline"
-              size={18}
-              color={colors.tanDark}
-            />
-            <Text style={s.warningText}>Select a time slot to continue.</Text>
+        {appointment &&
+        appointmentDoctor &&
+        appointmentTreatment &&
+        appointmentDay ? (
+          <View style={styles.bookingConfirmed}>
+            <Text style={styles.bookingConfirmedTitle}>Your appointment</Text>
+            <Text style={styles.bookingConfirmedBody}>
+              {appointmentDoctor.name} — {appointmentTreatment.name}
+            </Text>
+            <Text style={styles.bookingConfirmedMeta}>
+              {appointmentDay.day}, {appointmentDay.date} {appointmentDay.month}{" "}
+              at {appointment.slot}
+            </Text>
+            <View style={styles.bookingStatusPill}>
+              <Text style={styles.bookingStatusText}>
+                {appointment.status}
+              </Text>
+            </View>
           </View>
         ) : null}
 
-        <View style={[s.sectionHeader, medium && s.centeredRowInline]}>
-          <MaterialDesignIcons
-            name="calendar-month"
-            size={18}
-            color={colors.tanDark}
-          />
-          <Text style={s.sectionLabel}>Schedule — next week</Text>
+        <View style={styles.bookingHeader}>
+          <Text style={styles.bookingTitle}>Book a treatment</Text>
+          <Text style={styles.bookingSubtitle}>
+            {treatment.name} with {doctor.name} · {treatment.duration} ·{" "}
+            {treatment.price}
+          </Text>
         </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={[s.dayRow, medium && s.centeredRow]}
+
+        <View style={styles.bookingTabs}>
+          {(["doctor", "treatment"] as Mode[]).map((m) => {
+            const active = m === mode;
+            return (
+              <Pressable
+                key={m}
+                style={[styles.bookingTab, active && styles.bookingTabActive]}
+                onPress={() => setMode(m)}
+              >
+                <Text
+                  style={[
+                    styles.bookingTabText,
+                    active && styles.bookingTabTextActive,
+                  ]}
+                >
+                  {m === "doctor" ? "By doctor" : "By treatment"}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        {mode === "doctor" ? (
+          <>
+            <View style={styles.bookingField}>
+              <Text style={styles.bookingLabel}>Select doctor</Text>
+              <DoctorPicker
+                doctors={DOCTORS}
+                selectedId={doctorId}
+                onSelect={pickDoctor}
+              />
+            </View>
+
+            <View style={styles.bookingField}>
+              <Text style={styles.bookingLabel}>
+                Treatments this doctor offers
+              </Text>
+              <TreatmentPicker
+                treatments={doctorTreatments}
+                selectedId={treatmentId}
+                onSelect={pickTreatment}
+              />
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={styles.bookingField}>
+              <Text style={styles.bookingLabel}>Select treatment</Text>
+              <TreatmentPicker
+                treatments={TREATMENTS}
+                selectedId={treatmentId}
+                onSelect={pickTreatment}
+              />
+            </View>
+
+            <View style={styles.bookingField}>
+              <Text style={styles.bookingLabel}>
+                Doctors who offer this treatment
+              </Text>
+              <DoctorPicker
+                doctors={capableDoctors}
+                selectedId={doctorId}
+                onSelect={pickDoctor}
+              />
+            </View>
+          </>
+        )}
+
+        <View
+          style={styles.bookingSchedule}
+          onLayout={(e) => setScheduleY(e.nativeEvent.layout.y)}
         >
-          {days.map((d, i) => {
-            const active = i === dayIndex;
-            return (
-              <Pressable
-                key={`${d.day}-${d.date}`}
-                style={[s.dayCard, active && s.dayCardActive]}
-                onPress={() => {
-                  setDayIndex(i);
-                  setSlot(null);
-                }}
-              >
-                <Text style={[s.dayName, active && s.dayTextActive]}>
-                  {d.day}
-                </Text>
-                <Text style={[s.dayDate, active && s.dayTextActive]}>
-                  {d.date}
-                </Text>
-                <Text style={[s.dayMonth, active && s.dayTextActive]}>
-                  {d.month}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
-
-        <View style={[s.slotRow, medium && s.centeredRowInline]}>
-          {timeSlots.map((t) => {
-            const active = t === slot;
-            return (
-              <Pressable
-                key={t}
-                style={[s.slot, active && s.slotActive]}
-                onPress={() => {
-                  setSlot(t);
-                  setSlotWarning(false);
-                }}
-              >
-                <MaterialDesignIcons
-                  name="clock-outline"
-                  size={14}
-                  color={active ? colors.white : colors.body}
-                />
-                <Text style={[s.slotText, active && s.slotTextActive]}>
-                  {t}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
-      </View>
-
-      <View style={s.infoCard}>
-        <View style={s.infoHeader}>
-          <MaterialDesignIcons
-            name="information-outline"
-            size={20}
-            color={colors.tanDark}
-          />
-          <Text style={s.infoTitle}>{treatment.name}</Text>
-        </View>
-        <Text style={s.infoDoctor}>{doctor.name}</Text>
-        <Text style={s.infoDescription}>{treatment.description}</Text>
-        <View style={s.infoMeta}>
-          <Text style={s.infoMetaText}>{treatment.duration}</Text>
-          <Text style={s.infoMetaText}>{treatment.price}</Text>
-          {slot ? (
-            <Text style={s.infoMetaText}>
-              {selectedDay.day}, {selectedDay.date} {selectedDay.month} at{" "}
-              {slot}
-            </Text>
+          {slotWarning ? (
+            <View style={styles.bookingWarning}>
+              <MaterialDesignIcons
+                name="alert-circle-outline"
+                size={18}
+                color={colors.tanDark}
+              />
+              <Text style={styles.bookingWarningText}>
+                Select a time slot to continue.
+              </Text>
+            </View>
           ) : null}
+
+          <Text style={styles.bookingLabel}>Schedule</Text>
+
+          <View style={styles.bookingDayRow}>
+            {days.map((d, i) => {
+              const active = i === dayIndex;
+              return (
+                <Pressable
+                  key={`${d.day}-${d.date}`}
+                  style={[styles.bookingDay, active && styles.bookingDayActive]}
+                  onPress={() => {
+                    setDayIndex(i);
+                    setSlot(null);
+                  }}
+                >
+                  <Text style={styles.bookingDayName}>{d.day}</Text>
+                  <Text style={styles.bookingDayDate}>{d.date}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          <View style={styles.bookingSlotRow}>
+            {TIME_SLOTS.map((t) => {
+              const active = t === slot;
+              return (
+                <Pressable
+                  key={t}
+                  style={[styles.bookingSlot, active && styles.bookingSlotActive]}
+                  onPress={() => {
+                    setSlot(t);
+                    setSlotWarning(false);
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.bookingSlotText,
+                      active && styles.bookingSlotTextActive,
+                    ]}
+                  >
+                    {t}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
         </View>
-      </View>
-      <Pressable style={s.scheduleButton} onPress={requestSchedule}>
-        <Text style={s.scheduleButtonText}>Schedule appointment</Text>
-      </Pressable>
+
+        <View style={styles.bookingSummary}>
+          <Text style={styles.bookingSummaryTitle}>{treatment.name}</Text>
+          <Text style={styles.bookingSummaryDoctor}>{doctor.name}</Text>
+          <Text style={styles.bookingSummaryDescription}>
+            {treatment.description}
+          </Text>
+          <View style={styles.bookingSummaryMeta}>
+            <Text style={styles.bookingSummaryMetaText}>
+              {treatment.duration}
+            </Text>
+            <Text style={styles.bookingSummaryPrice}>{treatment.price}</Text>
+            {slot ? (
+              <Text style={styles.bookingSummaryMetaText}>
+                {selectedDay.day}, {selectedDay.date} {selectedDay.month} at{" "}
+                {slot}
+              </Text>
+            ) : null}
+          </View>
+        </View>
+
+        <Pressable style={styles.bookingPrimary} onPress={requestSchedule}>
+          <Text style={styles.bookingPrimaryText}>Confirm appointment</Text>
+        </Pressable>
       </ScrollView>
 
       <Modal
@@ -354,33 +339,41 @@ export default function User() {
         animationType="fade"
         onRequestClose={() => setConfirmOpen(false)}
       >
-        <View style={s.modalOverlay}>
-          <View style={s.modalCard}>
-            <Text style={s.modalTitle}>Confirm your appointment</Text>
-            <View style={s.modalRows}>
-              <Text style={s.modalRowLabel}>Doctor</Text>
-              <Text style={s.modalRowValue}>{doctor.name}</Text>
-              <Text style={s.modalRowLabel}>Treatment</Text>
-              <Text style={s.modalRowValue}>{treatment.name}</Text>
-              <Text style={s.modalRowLabel}>Date</Text>
-              <Text style={s.modalRowValue}>
+        <View style={styles.bookingModalOverlay}>
+          <View style={styles.bookingModalCard}>
+            <Text style={styles.bookingModalTitle}>
+              Confirm your appointment
+            </Text>
+            <View style={styles.bookingModalRow}>
+              <Text style={styles.bookingModalLabel}>Doctor</Text>
+              <Text style={styles.bookingModalValue}>{doctor.name}</Text>
+            </View>
+            <View style={styles.bookingModalRow}>
+              <Text style={styles.bookingModalLabel}>Treatment</Text>
+              <Text style={styles.bookingModalValue}>{treatment.name}</Text>
+            </View>
+            <View style={styles.bookingModalRow}>
+              <Text style={styles.bookingModalLabel}>Date</Text>
+              <Text style={styles.bookingModalValue}>
                 {selectedDay.day}, {selectedDay.date} {selectedDay.month}
               </Text>
-              <Text style={s.modalRowLabel}>Time</Text>
-              <Text style={s.modalRowValue}>{slot}</Text>
             </View>
-            <Text style={s.modalHint}>
+            <View style={styles.bookingModalRow}>
+              <Text style={styles.bookingModalLabel}>Time</Text>
+              <Text style={styles.bookingModalValue}>{slot}</Text>
+            </View>
+            <Text style={styles.bookingModalHint}>
               Are you sure about these details?
             </Text>
-            <View style={s.modalActions}>
+            <View style={styles.bookingModalActions}>
               <Pressable
-                style={s.modalCancel}
+                style={styles.bookingModalCancel}
                 onPress={() => setConfirmOpen(false)}
               >
-                <Text style={s.modalCancelText}>Cancel</Text>
+                <Text style={styles.bookingModalCancelText}>Cancel</Text>
               </Pressable>
-              <Pressable style={s.modalAccept} onPress={acceptBooking}>
-                <Text style={s.modalAcceptText}>Accept</Text>
+              <Pressable style={styles.bookingModalAccept} onPress={acceptBooking}>
+                <Text style={styles.bookingModalAcceptText}>Confirm</Text>
               </Pressable>
             </View>
           </View>
@@ -400,28 +393,22 @@ function DoctorPicker({
   onSelect: (id: string) => void;
 }) {
   return (
-    <View style={s.doctorList}>
+    <View style={styles.bookingOptions}>
       {doctors.map((d) => {
         const active = d.id === selectedId;
         return (
           <Pressable
             key={d.id}
-            style={[s.doctorCard, active && s.doctorCardActive]}
+            style={[styles.bookingOption, active && styles.bookingOptionActive]}
             onPress={() => onSelect(d.id)}
           >
-            <MaterialDesignIcons
-              name="stethoscope"
-              size={18}
-              color={active ? colors.white : colors.tanDark}
-            />
-            <View style={s.doctorTextBlock}>
-              <Text style={[s.doctorName, active && s.doctorTextActive]}>
-                {d.name}
-              </Text>
-              <Text style={[s.doctorSpecialty, active && s.doctorTextActive]}>
-                {d.specialty}
-              </Text>
+            <View style={styles.bookingOptionText}>
+              <Text style={styles.bookingOptionName}>{d.name}</Text>
+              <Text style={styles.bookingOptionMeta}>{d.specialty}</Text>
             </View>
+            <View
+              style={[styles.bookingRadio, active && styles.bookingRadioActive]}
+            />
           </Pressable>
         );
       })}
@@ -433,33 +420,31 @@ function TreatmentPicker({
   treatments,
   selectedId,
   onSelect,
-  center = false,
 }: {
   treatments: Treatment[];
   selectedId: string;
   onSelect: (id: string) => void;
-  center?: boolean;
 }) {
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={[s.treatmentRow, center && s.centeredRow]}
+      contentContainerStyle={styles.bookingChips}
     >
       {treatments.map((t) => {
         const active = t.id === selectedId;
         return (
           <Pressable
             key={t.id}
-            style={[s.chip, active && s.chipActive]}
+            style={[styles.bookingChip, active && styles.bookingChipActive]}
             onPress={() => onSelect(t.id)}
           >
-            <MaterialDesignIcons
-              name={t.icon}
-              size={16}
-              color={active ? colors.white : colors.body}
-            />
-            <Text style={[s.chipText, active && s.chipTextActive]}>
+            <Text
+              style={[
+                styles.bookingChipText,
+                active && styles.bookingChipTextActive,
+              ]}
+            >
               {t.name}
             </Text>
           </Pressable>
@@ -468,334 +453,3 @@ function TreatmentPicker({
     </ScrollView>
   );
 }
-
-const s = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.cream },
-  content: { padding: spacing.xl, gap: spacing.lg },
-
-  headerButton: { padding: spacing.sm, marginRight: spacing.sm },
-
-  pageTitle: {
-    fontFamily: fonts.heading,
-    fontSize: fontSize.h2,
-    color: colors.inkSoft,
-    textAlign: "center",
-  },
-
-  segmented: {
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: radius.pill,
-    padding: 2,
-    backgroundColor: colors.white,
-  },
-  segment: {
-    flex: 1,
-    alignItems: "center",
-    paddingVertical: spacing.sm,
-    borderRadius: radius.pill,
-  },
-  segmentActive: { backgroundColor: colors.tan },
-  segmentText: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.small,
-    color: colors.body,
-  },
-  segmentTextActive: { color: colors.white, fontFamily: fonts.bodyMedium },
-
-  segmentedMedium: { alignSelf: "flex-start", width: 340 },
-  segmentMedium: { paddingVertical: spacing.xs },
-  segmentTextMedium: { fontSize: fontSize.caption },
-
-  centeredLabel: { textAlign: "center" },
-  centeredRow: { flexGrow: 1, justifyContent: "center" },
-  centeredRowInline: { justifyContent: "center" },
-
-  sectionLabel: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.small,
-    color: colors.body,
-    textTransform: "uppercase",
-    letterSpacing: 1,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.sm,
-  },
-  scheduleSection: { gap: spacing.lg },
-  warningBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.sm,
-    padding: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.tanDark,
-    borderRadius: radius.md,
-    backgroundColor: colors.blushSoft,
-  },
-  warningText: {
-    flex: 1,
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.small,
-    color: colors.inkSoft,
-  },
-
-  doctorList: { gap: spacing.sm },
-  doctorCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.md,
-    padding: spacing.md,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.white,
-  },
-  doctorCardActive: { backgroundColor: colors.tan, borderColor: colors.tan },
-  doctorTextBlock: { flex: 1, gap: 2 },
-  doctorName: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.base,
-    color: colors.inkSoft,
-  },
-  doctorSpecialty: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.small,
-    color: colors.muted,
-  },
-  doctorTextActive: { color: colors.white },
-
-  treatmentRow: { gap: spacing.sm, paddingVertical: spacing.xs },
-  chip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.sm,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.white,
-  },
-  chipActive: { backgroundColor: colors.tan, borderColor: colors.tan },
-  chipText: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.small,
-    color: colors.body,
-  },
-  chipTextActive: { color: colors.white },
-
-  dayRow: { gap: spacing.sm, paddingVertical: spacing.xs },
-  dayCard: {
-    alignItems: "center",
-    gap: 2,
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.white,
-    minWidth: 72,
-  },
-  dayCardActive: { backgroundColor: colors.tan, borderColor: colors.tan },
-  dayName: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.caption,
-    color: colors.muted,
-    textTransform: "uppercase",
-    letterSpacing: 1,
-  },
-  dayDate: {
-    fontFamily: fonts.heading,
-    fontSize: fontSize.h3,
-    color: colors.inkSoft,
-  },
-  dayMonth: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.caption,
-    color: colors.muted,
-  },
-  dayTextActive: { color: colors.white },
-
-  slotRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
-  slot: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.xs,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.white,
-  },
-  slotActive: { backgroundColor: colors.tan, borderColor: colors.tan },
-  slotText: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.small,
-    color: colors.body,
-  },
-  slotTextActive: { color: colors.white },
-
-  infoCard: {
-    padding: spacing.xl,
-    gap: spacing.md,
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.ink,
-    borderBottomWidth: 4,
-    borderRadius: radius.md,
-  },
-  infoHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.sm,
-  },
-  infoTitle: {
-    fontFamily: fonts.heading,
-    fontSize: fontSize.h3,
-    color: colors.inkSoft,
-  },
-  infoDoctor: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.small,
-    color: colors.tanDark,
-  },
-  infoDescription: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.body,
-    color: colors.body,
-    lineHeight: 22,
-  },
-  infoMeta: { gap: spacing.xs, marginTop: spacing.xs },
-  infoMetaText: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.small,
-    color: colors.muted,
-  },
-
-  appointmentCard: {
-    padding: spacing.xl,
-    gap: spacing.sm,
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: colors.ink,
-    borderBottomWidth: 4,
-    borderRadius: radius.md,
-  },
-  appointmentHead: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: spacing.sm,
-  },
-  appointmentTitle: {
-    fontFamily: fonts.heading,
-    fontSize: fontSize.h3,
-    color: colors.inkSoft,
-  },
-  appointmentDoctor: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.base,
-    color: colors.inkSoft,
-  },
-  appointmentMeta: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.small,
-    color: colors.muted,
-  },
-  statusPill: {
-    backgroundColor: colors.tan,
-    borderRadius: radius.pill,
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.md,
-  },
-  statusText: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.caption,
-    color: colors.white,
-    textTransform: "capitalize",
-  },
-
-  scheduleButton: {
-    alignItems: "center",
-    paddingVertical: spacing.md,
-    borderRadius: radius.pill,
-    backgroundColor: colors.tan,
-  },
-  scheduleButtonText: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.base,
-    color: colors.white,
-  },
-
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    padding: spacing.xl,
-    backgroundColor: "rgba(52, 52, 44, 0.4)",
-  },
-  modalCard: {
-    gap: spacing.md,
-    padding: spacing.xl,
-    backgroundColor: colors.white,
-    borderRadius: radius.md,
-  },
-  modalTitle: {
-    fontFamily: fonts.heading,
-    fontSize: fontSize.h3,
-    color: colors.inkSoft,
-  },
-  modalRows: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    rowGap: spacing.xs,
-    columnGap: spacing.md,
-  },
-  modalRowLabel: {
-    width: 88,
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.small,
-    color: colors.muted,
-  },
-  modalRowValue: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.small,
-    color: colors.inkSoft,
-  },
-  modalHint: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.small,
-    color: colors.body,
-  },
-  modalActions: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: spacing.sm,
-  },
-  modalCancel: {
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: colors.line,
-  },
-  modalCancelText: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.small,
-    color: colors.inkSoft,
-  },
-  modalAccept: {
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radius.pill,
-    backgroundColor: colors.tan,
-  },
-  modalAcceptText: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.small,
-    color: colors.white,
-  },
-});

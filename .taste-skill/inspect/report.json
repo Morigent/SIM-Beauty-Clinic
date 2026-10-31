@@ -1,0 +1,2589 @@
+{
+ "url": "http://localhost:8081/",
+ "at": "2026-10-29T13:56:49.005Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    0.99
+   ],
+   "motion": {
+    "elements": 4,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 4,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 900,
+     "screens": 1,
+     "words": 316,
+     "img": 6,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 5,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "home_hero.png",
+      "q4-hero-lena.webp",
+      "2a125c7aa0d47538b857291fa0901286.jpg",
+      "beautiful-young-female-doctor-looking-camera-off",
+      "images%20(1).jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 3,
+     "brokenImages": [],
+     "emoji": [
+      "✨",
+      "🌟",
+      "🌿",
+      "💧",
+      "🔬",
+      "💆",
+      "★",
+      "📍",
+      "📞",
+      "✉"
+     ],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "chars": 34,
+     "lines": 2,
+     "size": 60,
+     "vw": 4.2,
+     "font": "serif",
+     "weight": 400,
+     "tracking": 0,
+     "leading": 1.07,
+     "top": 194,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "lines": 2,
+     "size": 60,
+     "font": "serif"
+    },
+    "headings": [
+     {
+      "text": "Healthy, glowing skin, on purpose.",
+      "words": 5,
+      "chars": 34,
+      "lines": 2,
+      "size": 60,
+      "vw": 4.2,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.07,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.36,
+      "top": 194,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Our Services",
+      "words": 2,
+      "chars": 12,
+      "lines": 1,
+      "size": 30,
+      "vw": 2.1,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 754,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "✨",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 843,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🌟",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.44,
+      "top": 843,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🌿",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.44,
+      "top": 843,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "💧",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.44,
+      "top": 843,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🔬",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.44,
+      "top": 843,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "💆",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 3.9,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.44,
+      "top": 843,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Testimonials",
+      "words": 1,
+      "chars": 12,
+      "lines": 1,
+      "size": 30,
+      "vw": 2.1,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 1232,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Our Doctors",
+      "words": 2,
+      "chars": 11,
+      "lines": 1,
+      "size": 30,
+      "vw": 2.1,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 1668,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Contact Us",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 30,
+      "vw": 2.1,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 2151,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 11,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 4,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "-apple-system",
+       "share": 0.87,
+       "mono": false
+      },
+      {
+       "family": "serif",
+       "share": 0.13,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      9,
+      12,
+      14,
+      15,
+      16,
+      18,
+      20,
+      30,
+      56,
+      60
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "-apple-system",
+      "size": 14,
+      "leading": 1.29,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.8
+     },
+     "measureChars": 75,
+     "max": {
+      "size": 60,
+      "vw": 4.2,
+      "font": "serif",
+      "text": "Healthy, glowing skin, on purpose."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.78,
+     "smallText": 12
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f2f2f2",
+       "top": 0,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.95
+       }
+      },
+      {
+       "color": "#f6f1eb",
+       "top": 0,
+       "hsl": {
+        "h": 33,
+        "s": 0.38,
+        "l": 0.94
+       }
+      },
+      {
+       "color": "#e9d0c4",
+       "top": 113,
+       "hsl": {
+        "h": 19,
+        "s": 0.46,
+        "l": 0.84
+       }
+      },
+      {
+       "color": "#efe5dd",
+       "top": 1184,
+       "hsl": {
+        "h": 27,
+        "s": 0.36,
+        "l": 0.9
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#6b645d",
+       "share": 0.65
+      },
+      {
+       "color": "#2b2b27",
+       "share": 0.17
+      },
+      {
+       "color": "#9a928a",
+       "share": 0.13
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.02
+      },
+      {
+       "color": "#c9a772",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#c4a67e",
+      "hsl": {
+       "h": 34,
+       "s": 0.37,
+       "l": 0.63
+      },
+      "fg": "#000000"
+     },
+     "lowContrast": [
+      {
+       "text": "LuxeDerm",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 18,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Sign In",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 14,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Sign In",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 14,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Kemang, South Jakarta · By appointment",
+       "ratio": 2.7,
+       "need": 4.5,
+       "size": 12,
+       "fg": "#9a928a",
+       "bg": "#f6f1eb"
+      },
+      {
+       "text": "© 2026 LuxeDerm. All rights reserved.",
+       "ratio": 2.7,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#9a928a",
+       "bg": "#f6f1eb"
+      },
+      {
+       "text": "Facial Treatment",
+       "ratio": 3.1,
+       "need": 4.5,
+       "size": 12,
+       "fg": "#9a928a",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 4,
+     "height": 39,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Sign In"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 34,
+     "hairlineSamples": [
+      "div.css-view-g5y9jx.r-backgroundColor-x86op0 1440px",
+      "div.css-view-g5y9jx.r-alignItems-1awozwy 1440px",
+      "div.css-view-g5y9jx.r-backgroundColor-14lw9ot 648px",
+      "div.css-text-146c3p1.r-borderTopColor-nv7zcf 630px",
+      "div.css-view-g5y9jx.r-backgroundColor-14lw9ot 648px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 18,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 6,
+     "mediaRadius": 4,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 6,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 834
+      },
+      {
+       "count": 5,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1312
+      },
+      {
+       "count": 5,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1748
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.33
+     }
+    ],
+    "nav": null,
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 900,
+    "margins": {
+     "left": 24,
+     "right": 16
+    },
+    "sections": [
+     {
+      "sel": "div.css-view-g5y9jx.r-backgroundColor-x86op0",
+      "tag": "div",
+      "top": 65,
+      "height": 593,
+      "words": 36,
+      "media": 1,
+      "middle": 25,
+      "heading": {
+       "text": "Healthy, glowing skin, on purpose.",
+       "size": 60,
+       "tag": "h1"
+      },
+      "left": 24,
+      "right": 24,
+      "textLeft": 24,
+      "textRight": 897,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 706,
+      "height": 430,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Our Services",
+       "size": 30,
+       "tag": "div"
+      },
+      "left": 551,
+      "right": 551,
+      "textLeft": 551,
+      "textRight": 551,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 1184,
+      "height": 388,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 1620,
+      "height": 435,
+      "words": 0,
+      "media": 5,
+      "middle": 1249,
+      "heading": null,
+      "left": 33,
+      "right": 0,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 2103,
+      "height": 504,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Healthy, glowing skin, on purpose.",
+      "size": 60,
+      "top": 194,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 24,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 20,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0.15,
+    "voidBox": {
+     "x": 0,
+     "y": 540,
+     "w": 540,
+     "h": 360
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#ffffff",
+    "sidebar": null,
+    "topbar": {
+     "h": 65
+    },
+    "canvas": {
+     "left": 24,
+     "right": -3350
+    },
+    "hero": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "chars": 34,
+     "lines": 2,
+     "size": 60,
+     "vw": 4.2,
+     "font": "serif",
+     "weight": 400,
+     "tracking": 0,
+     "leading": 1.07,
+     "top": 194,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 17,
+     "firstScreen": 6,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 1,
+    "panels": {
+     "count": 23,
+     "radii": [
+      [
+       8,
+       17
+      ],
+      [
+       4,
+       6
+      ]
+     ],
+     "heavyBorders": 17,
+     "borderSamples": [
+      "#34342c on #ffffff (12.55:1)",
+      "#34342c on #ffffff (12.55:1)",
+      "#34342c on #ffffff (12.55:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 1,
+     "tabularShare": 0,
+     "kpiMax": 15
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.17,
+     "tiny": 1,
+     "tinySamples": [
+      "© 2026 LuxeDerm. All rig 9px"
+     ],
+     "sizes": [
+      9,
+      12,
+      14,
+      15,
+      16,
+      18,
+      20,
+      30,
+      56,
+      60
+     ]
+    },
+    "title": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "size": 60,
+     "top": 194
+    },
+    "colourShare": 0.087
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    0.98
+   ],
+   "motion": {
+    "elements": 4,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 4,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 1024,
+     "screens": 1,
+     "words": 316,
+     "img": 6,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 5,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "home_hero.png",
+      "q4-hero-lena.webp",
+      "2a125c7aa0d47538b857291fa0901286.jpg",
+      "beautiful-young-female-doctor-looking-camera-off",
+      "images%20(1).jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 3,
+     "brokenImages": [],
+     "emoji": [
+      "✨",
+      "🌟",
+      "🌿",
+      "💧",
+      "🔬",
+      "💆",
+      "★",
+      "📍",
+      "📞",
+      "✉"
+     ],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "chars": 34,
+     "lines": 4,
+     "size": 60,
+     "vw": 7.8,
+     "font": "serif",
+     "weight": 400,
+     "tracking": 0,
+     "leading": 1.07,
+     "top": 113,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "lines": 4,
+     "size": 60,
+     "font": "serif"
+    },
+    "headings": [
+     {
+      "text": "Healthy, glowing skin, on purpose.",
+      "words": 5,
+      "chars": 34,
+      "lines": 4,
+      "size": 60,
+      "vw": 7.8,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.07,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.42,
+      "top": 113,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Our Services",
+      "words": 2,
+      "chars": 12,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 750,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "✨",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 56,
+      "vw": 7.3,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.43,
+      "top": 839,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🌟",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 7.3,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.43,
+      "top": 839,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🌿",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 7.3,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.43,
+      "top": 839,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "💧",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 7.3,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.43,
+      "top": 839,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🔬",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 7.3,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.43,
+      "top": 839,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "💆",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 7.3,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.43,
+      "top": 839,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Testimonials",
+      "words": 1,
+      "chars": 12,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 1228,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Our Doctors",
+      "words": 2,
+      "chars": 11,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 1664,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Contact Us",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 2147,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 11,
+     "maxLines": 4,
+     "over2Lines": 1,
+     "statements": 0,
+     "centered": 4,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "-apple-system",
+       "share": 0.87,
+       "mono": false
+      },
+      {
+       "family": "serif",
+       "share": 0.13,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      9,
+      12,
+      14,
+      15,
+      16,
+      18,
+      20,
+      30,
+      56,
+      60
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "-apple-system",
+      "size": 14,
+      "leading": 1.29,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.8
+     },
+     "measureChars": 75,
+     "max": {
+      "size": 60,
+      "vw": 7.8,
+      "font": "serif",
+      "text": "Healthy, glowing skin, on purpose."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.78,
+     "smallText": 12
+    },
+    "eyebrows": [
+     {
+      "text": "LuxeDerm",
+      "above": "Healthy, glowing skin, on purpose.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 18,
+      "top": 21
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f2f2f2",
+       "top": 0,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.95
+       }
+      },
+      {
+       "color": "#f6f1eb",
+       "top": 0,
+       "hsl": {
+        "h": 33,
+        "s": 0.38,
+        "l": 0.94
+       }
+      },
+      {
+       "color": "#efe5dd",
+       "top": 1180,
+       "hsl": {
+        "h": 27,
+        "s": 0.36,
+        "l": 0.9
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#6b645d",
+       "share": 0.65
+      },
+      {
+       "color": "#2b2b27",
+       "share": 0.17
+      },
+      {
+       "color": "#9a928a",
+       "share": 0.13
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.02
+      },
+      {
+       "color": "#c9a772",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#c4a67e",
+      "hsl": {
+       "h": 34,
+       "s": 0.37,
+       "l": 0.63
+      },
+      "fg": "#000000"
+     },
+     "lowContrast": [
+      {
+       "text": "LuxeDerm",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 18,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Sign In",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 14,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Sign In",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 14,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Kemang, South Jakarta · By appointment",
+       "ratio": 2.7,
+       "need": 4.5,
+       "size": 12,
+       "fg": "#9a928a",
+       "bg": "#f6f1eb"
+      },
+      {
+       "text": "© 2026 LuxeDerm. All rights reserved.",
+       "ratio": 2.7,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#9a928a",
+       "bg": "#f6f1eb"
+      },
+      {
+       "text": "Facial Treatment",
+       "ratio": 3.1,
+       "need": 4.5,
+       "size": 12,
+       "fg": "#9a928a",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 4,
+     "height": 39,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Sign In"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 34,
+     "hairlineSamples": [
+      "div.css-view-g5y9jx.r-backgroundColor-x86op0 768px",
+      "div.css-view-g5y9jx.r-alignItems-1awozwy 768px",
+      "div.css-view-g5y9jx.r-backgroundColor-14lw9ot 346px",
+      "div.css-text-146c3p1.r-borderTopColor-nv7zcf 328px",
+      "div.css-view-g5y9jx.r-backgroundColor-14lw9ot 346px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 18,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 6,
+     "mediaRadius": 4,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 6,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 830
+      },
+      {
+       "count": 5,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1308
+      },
+      {
+       "count": 5,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1744
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.1
+     }
+    ],
+    "nav": null,
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 1024,
+    "margins": {
+     "left": 24,
+     "right": 16
+    },
+    "sections": [
+     {
+      "sel": "div.css-view-g5y9jx.r-backgroundColor-x86op0",
+      "tag": "div",
+      "top": 65,
+      "height": 589,
+      "words": 36,
+      "media": 1,
+      "middle": 24,
+      "heading": {
+       "text": "Healthy, glowing skin, on purpose.",
+       "size": 60,
+       "tag": "h1"
+      },
+      "left": 24,
+      "right": 24,
+      "textLeft": 24,
+      "textRight": 420,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 702,
+      "height": 430,
+      "words": 10,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "🌟",
+       "size": 56,
+       "tag": "div"
+      },
+      "left": 215,
+      "right": 171,
+      "textLeft": 215,
+      "textRight": 171,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 1180,
+      "height": 388,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 1616,
+      "height": 435,
+      "words": 0,
+      "media": 5,
+      "middle": 711,
+      "heading": null,
+      "left": 33,
+      "right": 0,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 2099,
+      "height": 504,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Healthy, glowing skin, on purpose.",
+      "size": 60,
+      "top": 113,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 24,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 20,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#ffffff",
+    "sidebar": null,
+    "topbar": {
+     "h": 65
+    },
+    "canvas": {
+     "left": 24,
+     "right": -1845
+    },
+    "hero": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "chars": 34,
+     "lines": 4,
+     "size": 60,
+     "vw": 7.8,
+     "font": "serif",
+     "weight": 400,
+     "tracking": 0,
+     "leading": 1.07,
+     "top": 113,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 17,
+     "firstScreen": 6,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 1,
+    "panels": {
+     "count": 23,
+     "radii": [
+      [
+       8,
+       17
+      ],
+      [
+       4,
+       6
+      ]
+     ],
+     "heavyBorders": 17,
+     "borderSamples": [
+      "#34342c on #ffffff (12.55:1)",
+      "#34342c on #ffffff (12.55:1)",
+      "#34342c on #ffffff (12.55:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 1,
+     "tabularShare": 0,
+     "kpiMax": 15
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.17,
+     "tiny": 1,
+     "tinySamples": [
+      "© 2026 LuxeDerm. All rig 9px"
+     ],
+     "sizes": [
+      9,
+      12,
+      14,
+      15,
+      16,
+      18,
+      20,
+      30,
+      56,
+      60
+     ]
+    },
+    "title": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "size": 60,
+     "top": 113
+    },
+    "colourShare": 0.033
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    1
+   ],
+   "motion": {
+    "elements": 4,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 4,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 844,
+     "screens": 1,
+     "words": 310,
+     "img": 6,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 6,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "home_hero.png",
+      "q4-hero-lena.webp",
+      "2a125c7aa0d47538b857291fa0901286.jpg",
+      "beautiful-young-female-doctor-looking-camera-off",
+      "images%20(1).jpg",
+      "images.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 3,
+     "brokenImages": [],
+     "emoji": [
+      "✨",
+      "🌟",
+      "🌿",
+      "💧",
+      "🔬",
+      "💆",
+      "★",
+      "📍",
+      "📞",
+      "✉"
+     ],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "chars": 34,
+     "lines": 2,
+     "size": 42,
+     "vw": 10.8,
+     "font": "serif",
+     "weight": 400,
+     "tracking": 0,
+     "leading": 1.1,
+     "top": 89,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "lines": 2,
+     "size": 42,
+     "font": "serif"
+    },
+    "headings": [
+     {
+      "text": "Healthy, glowing skin, on purpose.",
+      "words": 5,
+      "chars": 34,
+      "lines": 2,
+      "size": 42,
+      "vw": 10.8,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 89,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Our Services",
+      "words": 2,
+      "chars": 12,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 794,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "✨",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 56,
+      "vw": 14.4,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 883,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🌟",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 14.4,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 883,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🌿",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 14.4,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 883,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "💧",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 14.4,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 883,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "🔬",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 14.4,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 883,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "💆",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 56,
+      "vw": 14.4,
+      "font": "-apple-system",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 883,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Testimonials",
+      "words": 1,
+      "chars": 12,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 1272,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Our Doctors",
+      "words": 2,
+      "chars": 11,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 1708,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Contact Us",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "serif",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 1,
+      "top": 2191,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 11,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 4,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "-apple-system",
+       "share": 0.86,
+       "mono": false
+      },
+      {
+       "family": "serif",
+       "share": 0.14,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      9,
+      12,
+      14,
+      15,
+      16,
+      18,
+      20,
+      30,
+      42,
+      56
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "-apple-system",
+      "size": 14,
+      "leading": 1.29,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 5.8
+     },
+     "measureChars": 46,
+     "max": {
+      "size": 56,
+      "vw": 14.4,
+      "font": "-apple-system",
+      "text": "✨"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.8,
+     "smallText": 12
+    },
+    "eyebrows": [
+     {
+      "text": "LuxeDerm",
+      "above": "Healthy, glowing skin, on purpose.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 18,
+      "top": 21
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f2f2f2",
+       "top": 0,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.95
+       }
+      },
+      {
+       "color": "#f6f1eb",
+       "top": 0,
+       "hsl": {
+        "h": 33,
+        "s": 0.38,
+        "l": 0.94
+       }
+      },
+      {
+       "color": "#efe5dd",
+       "top": 1224,
+       "hsl": {
+        "h": 27,
+        "s": 0.36,
+        "l": 0.9
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#6b645d",
+       "share": 0.65
+      },
+      {
+       "color": "#2b2b27",
+       "share": 0.17
+      },
+      {
+       "color": "#9a928a",
+       "share": 0.14
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.02
+      },
+      {
+       "color": "#c9a772",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#c4a67e",
+      "hsl": {
+       "h": 34,
+       "s": 0.37,
+       "l": 0.63
+      },
+      "fg": "#000000"
+     },
+     "lowContrast": [
+      {
+       "text": "LuxeDerm",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 18,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Sign In",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 14,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Sign In",
+       "ratio": 2.3,
+       "need": 4.5,
+       "size": 14,
+       "fg": "#ffffff",
+       "bg": "#c4a67e"
+      },
+      {
+       "text": "Kemang, South Jakarta · By appointment",
+       "ratio": 2.7,
+       "need": 4.5,
+       "size": 12,
+       "fg": "#9a928a",
+       "bg": "#f6f1eb"
+      },
+      {
+       "text": "© 2026 LuxeDerm. All rights reserved.",
+       "ratio": 2.7,
+       "need": 4.5,
+       "size": 9,
+       "fg": "#9a928a",
+       "bg": "#f6f1eb"
+      },
+      {
+       "text": "Facial Treatment",
+       "ratio": 3.1,
+       "need": 4.5,
+       "size": 12,
+       "fg": "#9a928a",
+       "bg": "#ffffff"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": 4,
+     "height": 39,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Sign In"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 20,
+     "hairlineSamples": [
+      "div.css-view-g5y9jx.r-backgroundColor-x86op0 390px",
+      "div.css-view-g5y9jx.r-alignItems-1awozwy 390px",
+      "div.css-view-g5y9jx.r-backgroundColor-14lw9ot 176px",
+      "div.css-view-g5y9jx.r-backgroundColor-14lw9ot 176px",
+      "div.css-view-g5y9jx.r-backgroundColor-14lw9ot 176px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 18,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 1,
+     "mediaRadius": 8,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 6,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 874
+      },
+      {
+       "count": 5,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1352
+      },
+      {
+       "count": 5,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1788
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.21
+     }
+    ],
+    "nav": null,
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 844,
+    "margins": {
+     "left": 24,
+     "right": 8
+    },
+    "sections": [
+     {
+      "sel": "div.css-view-g5y9jx.r-backgroundColor-x86op0",
+      "tag": "div",
+      "top": 65,
+      "height": 633,
+      "words": 36,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Healthy, glowing skin, on purpose.",
+       "size": 42,
+       "tag": "h1"
+      },
+      "left": 24,
+      "right": 24,
+      "textLeft": 24,
+      "textRight": 42,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 746,
+      "height": 430,
+      "words": 9,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Our Services",
+       "size": 30,
+       "tag": "div"
+      },
+      "left": 26,
+      "right": 26,
+      "textLeft": 26,
+      "textRight": 26,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 1224,
+      "height": 388,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 1660,
+      "height": 435,
+      "words": 0,
+      "media": 5,
+      "middle": 409,
+      "heading": null,
+      "left": 33,
+      "right": 0,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.css-view-g5y9jx",
+      "tag": "div",
+      "top": 2143,
+      "height": 524,
+      "words": 0,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": null,
+      "right": null,
+      "textLeft": null,
+      "textRight": null,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Healthy, glowing skin, on purpose.",
+      "size": 42,
+      "top": 89,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 24,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 20,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#ffffff",
+    "sidebar": null,
+    "topbar": {
+     "h": 65
+    },
+    "canvas": {
+     "left": 24,
+     "right": -998
+    },
+    "hero": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "words": 5,
+     "chars": 34,
+     "lines": 2,
+     "size": 42,
+     "vw": 10.8,
+     "font": "serif",
+     "weight": 400,
+     "tracking": 0,
+     "leading": 1.1,
+     "top": 89,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 17,
+     "firstScreen": 0,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 1,
+    "panels": {
+     "count": 23,
+     "radii": [
+      [
+       8,
+       17
+      ],
+      [
+       4,
+       6
+      ]
+     ],
+     "heavyBorders": 17,
+     "borderSamples": [
+      "#34342c on #ffffff (12.55:1)",
+      "#34342c on #ffffff (12.55:1)",
+      "#34342c on #ffffff (12.55:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 1,
+     "tabularShare": 0,
+     "kpiMax": 15
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.18,
+     "tiny": 1,
+     "tinySamples": [
+      "© 2026 LuxeDerm. All rig 9px"
+     ],
+     "sizes": [
+      9,
+      12,
+      14,
+      15,
+      16,
+      18,
+      20,
+      30,
+      42,
+      56
+     ]
+    },
+    "title": {
+     "text": "Healthy, glowing skin, on purpose.",
+     "size": 42,
+     "top": 89
+    },
+    "colourShare": 0.056
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "emoji",
+   "width": 1440,
+   "message": "Emoji in the page: ✨ 🌟 🌿 💧 🔬 💆 ★ 📍 📞 ✉",
+   "fix": "Remove. Use words or real imagery.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "palette-cream",
+   "width": 1440,
+   "message": "Yellow-cream background (section #f6f1eb, section #efe5dd).",
+   "fix": "Use the drawn palette. If you want warmth, take a low-chroma stone or bone, not a yellow cream.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "contrast",
+   "width": 1440,
+   "message": "Unreadable text: \"LuxeDerm\" 2.3:1 (#ffffff on #c4a67e); \"Sign In\" 2.3:1 (#ffffff on #c4a67e); \"Sign In\" 2.3:1 (#ffffff on #c4a67e)",
+   "fix": "Raise contrast to at least 4.5:1 for text, 3:1 for large display.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "heavy-borders",
+   "width": 1440,
+   "message": "17 panel borders are dark against their ground: #34342c on #ffffff (12.55:1) | #34342c on #ffffff (12.55:1) | #34342c on #ffffff (12.55:1)",
+   "fix": "A panel border is a whisper: about 1.1–1.3:1 against its ground on a light screen (#e5e7eb–#ededed on white), and about 1.2–1.5:1 on a dark one (#1a1a1a on #000, #2e2e2e on #111). Darker lines turn the screen into a grid of boxes; keep the stronger line for controls.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "below-fold",
+   "width": 1440,
+   "message": "Only 6 of 17 blocks start on the first 1440px screen.",
+   "fix": "Every block the brief names shows its header and first rows on the first desktop screen: size the headline block to its question, cap long lists with \"View all\", and put time-sensitive blocks before long tables."
+  },
+  {
+   "level": "WARN",
+   "id": "app-title-size",
+   "width": 1440,
+   "message": "The h1 is 60px (\"Healthy, glowing skin, on purpose.\").",
+   "fix": "An app screen is not a landing page: the title is 18-32px (20-24px on a phone).",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 768,
+   "message": "1 headline(s) wrap past two lines at 768px: \"Healthy, glowing skin, on purpose.\" → 4 lines (5 words, 60px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 32px or less."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "D:\\coding\\Website\\clinic\\.taste-skill\\inspect\\desktop-fold.jpg",
+   "pages": [
+    "D:\\coding\\Website\\clinic\\.taste-skill\\inspect\\desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "D:\\coding\\Website\\clinic\\.taste-skill\\inspect\\tablet-fold.jpg",
+   "pages": [
+    "D:\\coding\\Website\\clinic\\.taste-skill\\inspect\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "D:\\coding\\Website\\clinic\\.taste-skill\\inspect\\mobile-fold.jpg",
+   "pages": [
+    "D:\\coding\\Website\\clinic\\.taste-skill\\inspect\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

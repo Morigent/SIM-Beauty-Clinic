@@ -1,4 +1,5 @@
 import type { MaterialDesignIconsIconName } from "@react-native-vector-icons/material-design-icons";
+import type { ImageSourcePropType } from "react-native";
 
 export interface User {
   name: string;
@@ -23,6 +24,8 @@ export interface Doctor {
   name: string;
   specialty: string;
   treatmentIds: string[];
+  image: ImageSourcePropType;
+  about: string;
 }
 
 // ponytail: in-memory dummy auth. Replace with a real backend before release.
@@ -114,24 +117,45 @@ export const DOCTORS: Doctor[] = [
     name: "Dr. Ava Chen",
     specialty: "Facial aesthetics",
     treatmentIds: ["hydrafacial", "dermaplaning", "chemical-peel"],
+    image: require("../../assets/Doctor/q4-hero-lena.webp"),
+    about:
+      "Ava pairs gentle exfoliation with deep hydration to bring out skin's natural glow without overdoing it.",
   },
   {
     id: "noah",
     name: "Dr. Noah Patel",
     specialty: "Cosmetic dermatology",
     treatmentIds: ["microneedling", "botox"],
+    image: require("../../assets/Doctor/2a125c7aa0d47538b857291fa0901286.jpg"),
+    about:
+      "Noah focuses on texture and tone, using collagen-stimulating and muscle-relaxing treatments for a refreshed look.",
   },
   {
     id: "mia",
     name: "Dr. Mia Rossi",
     specialty: "Skin rejuvenation",
     treatmentIds: ["chemical-peel", "hydrafacial", "botox"],
+    image: require("../../assets/Doctor/beautiful-young-female-doctor-looking-camera-office_1301-7807.avif"),
+    about:
+      "Mia blends resurfacing peels with hydrating facials, tailoring each step to sensitive and combination skin.",
   },
   {
     id: "liam",
     name: "Dr. Liam Kim",
     specialty: "Dermatologic surgery",
     treatmentIds: ["microneedling", "dermaplaning", "hydrafacial"],
+    image: require("../../assets/Doctor/images (1).jpg"),
+    about:
+      "Liam handles precise, low-downtime procedures and pairs them with surface smoothing for an even result.",
+  },
+  {
+    id: "sora",
+    name: "Dr. Sora Tan",
+    specialty: "Laser therapy",
+    treatmentIds: [],
+    image: require("../../assets/Doctor/images.jpg"),
+    about:
+      "Sora specialises in energy-based treatments for pigmentation, redness, and scarring, guided by skin-type analysis.",
   },
 ];
 
