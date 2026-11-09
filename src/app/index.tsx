@@ -14,6 +14,7 @@ import {
   View,
 } from "react-native";
 import Navbar from "../components/Navbar";
+import QuoteBand from "../components/QuoteBand";
 import { colors, spacing, styles } from "../theme/style";
 import { DOCTORS } from "../utils/data";
 
@@ -775,6 +776,8 @@ export default function Index() {
             </Pressable>
           </View>
         </View>
+
+        <QuoteBand />
 
         {/* Footer */}
         <View style={styles.footer}>

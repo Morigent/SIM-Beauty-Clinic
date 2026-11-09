@@ -827,7 +827,45 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  /* ---------- Quote ---------- */
+  quoteBand: {
+    paddingVertical: spacing.section,
+    paddingHorizontal: spacing.xl,
+    backgroundColor: colors.cream,
+    alignItems: "center",
+  },
+  quoteInner: {
+    width: "100%",
+    maxWidth: 720,
+    alignItems: "center",
+  },
+  quoteText: {
+    fontFamily: fonts.heading,
+    color: colors.inkSoft,
+    textAlign: "center",
+  },
+  quoteAuthor: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.small,
+    color: colors.body,
+    textAlign: "center",
+    marginTop: spacing.lg,
+  },
+  quoteAction: {
+    minHeight: 44,
+    justifyContent: "center",
+    marginTop: spacing.md,
+    paddingHorizontal: spacing.sm,
+   },
+  quoteActionText: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: fontSize.small,
+    color: colors.ink,
+    textDecorationLine: "underline",
+  },
+
   /* ---------- Footer ---------- */
+
   footer: {
     flexDirection: "row",
     alignItems: "center",
