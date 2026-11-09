@@ -148,10 +148,10 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.blush,
-    paddingVertical: 10,
+    paddingVertical: 6,
     borderWidth: 1,
     borderColor: colors.ink,
-    borderBottomWidth: 4,
+    borderBottomWidth: 3,
     borderRadius: radius.sm,
   },
   buttonBlushText: {
@@ -558,6 +558,42 @@ export const styles = StyleSheet.create({
   doctorPhoto: {
     width: "100%",
     height: 190,
+    borderRadius: radius.md,
+    backgroundColor: colors.blush,
+  },
+
+  /* ---------- Pricing ---------- */
+  pricingCard: {
+    width: 230,
+    marginRight: spacing.lg,
+    backgroundColor: colors.cream,
+    borderTopLeftRadius: radius.arch,
+    borderTopRightRadius: radius.arch,
+    borderBottomLeftRadius: radius.md,
+    borderBottomRightRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    overflow: "hidden",
+  },
+  pricingImageWrap: { height: 88, backgroundColor: colors.blush },
+  pricingBody: { padding: spacing.md },
+  pricingName: { fontFamily: fonts.heading, fontSize: fontSize.small, color: colors.inkSoft, textAlign: "center" },
+  pricingTagline: { fontFamily: fonts.body, fontSize: 10, color: colors.muted, marginBottom: spacing.sm, textAlign: "center" },
+  pricingFeatureRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 2 },
+  pricingCheck: { color: colors.gold, marginRight: 4, fontSize: 10 },
+  pricingFeatureText: { fontFamily: fonts.body, fontSize: 10, color: colors.body },
+  pricingIdeal: { fontFamily: fonts.body, fontSize: 10, lineHeight: 13, color: colors.body, marginTop: spacing.sm },
+  pricingPrice: { fontFamily: fonts.heading, fontSize: 20, color: colors.inkSoft, textAlign: "center", marginVertical: spacing.sm },
+  pricingButtonFeatured: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.tan,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: colors.ink,
+    borderBottomWidth: 3,
+    borderRadius: radius.sm,
+  },
     borderRadius: radius.sm,
     backgroundColor: colors.blush,
   },
@@ -805,27 +841,9 @@ export const styles = StyleSheet.create({
   },
 
   /* ---------- Contact ---------- */
-  contactCard: {
-    ...hardShadowCard,
-    width: "100%",
-    maxWidth: 520,
-    padding: spacing.lg,
-    marginTop: spacing.lg,
-  },
-  contactLabel: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: fontSize.small,
-    color: colors.inkSoft,
-    marginBottom: 4,
-    textAlign: "center",
-  },
-  contactValue: {
-    fontFamily: fonts.body,
-    fontSize: fontSize.body,
-    lineHeight: 20,
-    color: colors.body,
-    textAlign: "center",
-  },
+  contactCard: { ...hardShadowCard, width: "100%", maxWidth: 520, padding: spacing.lg, marginTop: spacing.lg },
+  contactLabel: { fontFamily: fonts.bodyMedium, fontSize: fontSize.small, color: colors.inkSoft, marginBottom: 4, textAlign: "center" },
+  contactValue: { fontFamily: fonts.body, fontSize: fontSize.body, lineHeight: 20, color: colors.body, textAlign: "center" },
 
   /* ---------- Quote ---------- */
   quoteBand: {
@@ -856,7 +874,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: spacing.md,
     paddingHorizontal: spacing.sm,
-   },
+  },
   quoteActionText: {
     fontFamily: fonts.bodyMedium,
     fontSize: fontSize.small,

@@ -1,3 +1,7 @@
+import { useEffect, useRef, useState } from "react";
+import { View, Text, ScrollView, Animated, Pressable, Alert, Platform, useWindowDimensions, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
+import { styles, colors, spacing } from "../theme/style";
+import Navbar from "../components/Navbar";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -74,9 +78,13 @@ export default function Index() {
   const [activeKey, setActiveKey] = useState("home");
   const { width } = useWindowDimensions();
   const cardWidth = width * 0.45;
+  const offerCardWidth = Math.min((width - spacing.lg * 2 - spacing.md * 2) / 3 - 4, 200);
   const isDesktop = width >= 768;
   const isWideHero = width >= 1024;
 
+  // Desktop scroll-lock: while the cursor is over a horizontal card list that
+  // hasn't reached its end, the wheel scrolls the cards instead of the page.
+  // Once at the end, the page scrolls normally. Mobile keeps default scrolling.
   const servicesAtEnd = useRef(false);
   const testimonialsAtEnd = useRef(false);
   const doctorsAtEnd = useRef(false);
@@ -87,6 +95,9 @@ export default function Index() {
   const testimonialsSectionRef = useRef<View>(null);
   const doctorsListRef = useRef<ScrollView>(null);
   const doctorsSectionRef = useRef<View>(null);
+
+  const scrollRef = useRef<ScrollView>(null);
+  // Store Y offset for each section
 
   const scrollRef = useRef<ScrollView>(null);
   // Store Y offset for each section
@@ -186,8 +197,7 @@ export default function Index() {
     ) => {
       // On web the section ref resolves to its underlying DOM node.
       const sectionNode = sectionRef.current as unknown as HTMLElement | null;
-      if (!sectionNode || typeof sectionNode.addEventListener !== "function")
-        return;
+      if (!sectionNode || typeof sectionNode.addEventListener !== "function") return;
       let targetX = 0;
       let lastWheelAt = 0;
 
@@ -282,6 +292,18 @@ export default function Index() {
       speed: 20,
       bounciness: 14,
     }).start();
+  };
+
+  const signInScale = useRef(new Animated.Value(1)).current;
+  const [signInPressed, setSignInPressed] = useState(false);
+
+  const handleSignInPressIn = () => {
+    setSignInPressed(true);
+    Animated.spring(signInScale, { toValue: 0.85, useNativeDriver: true, speed: 30, bounciness: 10 }).start();
+  };
+  const handleSignInPressOut = () => {
+    setSignInPressed(false);
+    Animated.spring(signInScale, { toValue: 1, useNativeDriver: true, speed: 20, bounciness: 14 }).start();
   };
 
   const handleSignIn = () => {
@@ -690,6 +712,52 @@ export default function Index() {
               </Animated.View>
             ))}
           </ScrollView>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "stretch",
+              gap: spacing.md,
+              paddingHorizontal: spacing.lg,
+              paddingBottom: spacing.sm,
+            }}
+          >
+            {SPECIAL_OFFERS.map((plan) => (
+              <View key={plan.id} style={[styles.pricingCard, { width: offerCardWidth }]}>
+                <View style={[styles.pricingImageWrap, { alignItems: "center", justifyContent: "center" }]}>
+                  <Text style={{ fontSize: 32 }}>{plan.emoji}</Text>
+                </View>
+                <View style={styles.pricingBody}>
+                  <Text style={styles.pricingName}>{plan.name}</Text>
+                  <Text style={styles.pricingTagline}>{plan.tagline}</Text>
+                  {plan.features.map((feature) => (
+                    <View key={feature} style={styles.pricingFeatureRow}>
+                      <Text style={styles.pricingCheck}>✓</Text>
+                      <Text style={styles.pricingFeatureText}>{feature}</Text>
+                    </View>
+                  ))}
+                  <Text style={styles.pricingPrice}>
+                    {plan.price}
+                    <Text style={{ fontSize: 12, color: colors.muted }}> /mo</Text>
+                  </Text>
+                  <Pressable
+                    style={({ pressed }) => [
+                      plan.featured ? styles.pricingButtonFeatured : styles.buttonBlush,
+                      pressed && { opacity: 0.85, transform: [{ scale: 0.97 }] },
+                    ]}
+                    onPress={() => handleChoosePlan(plan.name)}
+                  >
+                    <Text style={{ color: plan.featured ? colors.white : colors.inkSoft, fontWeight: "700", fontSize: 12 }}>
+                      Choose Plan
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+            ))}
+          </View>
         </View>
 
         {/* Contact Section */}
@@ -759,21 +827,22 @@ export default function Index() {
               <Text style={styles.contactValue}>hello@luxederm.id</Text>
             </View>
 
-            <Pressable
-              onPressIn={handleSignInPressIn}
-              onPressOut={handleSignInPressOut}
-              style={[
-                styles.buttonPrimary,
-                { alignSelf: "center", marginTop: spacing.xl },
-              ]}
-              onPress={handleSignIn}
+            <Animated.View
+              style={{
+                transform: [{ scale: signInScale }],
+                alignSelf: "center",
+                marginTop: spacing.xl,
+              }}
             >
-              <Animated.View style={{ transform: [{ scale: signInScale }] }}>
-                <Text style={[styles.buttonPrimaryText, { marginRight: 0 }]}>
-                  Sign In
-                </Text>
-              </Animated.View>
-            </Pressable>
+              <Pressable
+                onPressIn={handleSignInPressIn}
+                onPressOut={handleSignInPressOut}
+                style={[styles.buttonPrimary, signInPressed && { borderBottomWidth: 1 }]}
+                onPress={handleSignIn}
+              >
+                <Text style={[styles.buttonPrimaryText, { marginRight: 0 }]}>Sign In</Text>
+              </Pressable>
+            </Animated.View>
           </View>
         </View>
 
