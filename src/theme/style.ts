@@ -594,9 +594,6 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderRadius: radius.sm,
   },
-    borderRadius: radius.sm,
-    backgroundColor: colors.blush,
-  },
 
   doctorName: {
     fontFamily: fonts.heading,

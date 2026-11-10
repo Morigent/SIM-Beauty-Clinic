@@ -4,22 +4,8 @@ import { styles, colors, spacing } from "../theme/style";
 import Navbar from "../components/Navbar";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import { useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  Linking,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import Navbar from "../components/Navbar";
+import { Linking } from "react-native";
 import QuoteBand from "../components/QuoteBand";
-import { colors, spacing, styles } from "../theme/style";
 import { DOCTORS } from "../utils/data";
 
 const SERVICES = [
@@ -74,6 +60,36 @@ const TESTIMONIALS = [
   },
 ];
 
+const SPECIAL_OFFERS = [
+  {
+    id: "1",
+    name: "Glow Starter",
+    tagline: "A gentle intro to your glow-up",
+    emoji: "🌱",
+    features: ["1 facial per month", "Skin consultation", "Member-only discounts"],
+    price: "$49",
+    featured: false,
+  },
+  {
+    id: "2",
+    name: "Radiance Plus",
+    tagline: "Our most-loved monthly plan",
+    emoji: "✨",
+    features: ["2 facials per month", "LED light therapy", "Priority booking"],
+    price: "$89",
+    featured: true,
+  },
+  {
+    id: "3",
+    name: "Luxe Signature",
+    tagline: "Complete care, head to toe",
+    emoji: "👑",
+    features: ["Unlimited facials", "Body sculpting", "24/7 concierge"],
+    price: "$149",
+    featured: false,
+  },
+];
+
 export default function Index() {
   const [activeKey, setActiveKey] = useState("home");
   const { width } = useWindowDimensions();
@@ -96,7 +112,6 @@ export default function Index() {
   const doctorsListRef = useRef<ScrollView>(null);
   const doctorsSectionRef = useRef<View>(null);
 
-  const scrollRef = useRef<ScrollView>(null);
   // Store Y offset for each section
 
   const scrollRef = useRef<ScrollView>(null);
@@ -278,6 +293,7 @@ export default function Index() {
   const signInScale = useRef(new Animated.Value(1)).current;
 
   const handleSignInPressIn = () => {
+    setSignInPressed(true);
     Animated.spring(signInScale, {
       toValue: 0.85,
       useNativeDriver: true,
@@ -286,6 +302,7 @@ export default function Index() {
     }).start();
   };
   const handleSignInPressOut = () => {
+    setSignInPressed(false);
     Animated.spring(signInScale, {
       toValue: 1,
       useNativeDriver: true,
@@ -294,20 +311,20 @@ export default function Index() {
     }).start();
   };
 
-  const signInScale = useRef(new Animated.Value(1)).current;
   const [signInPressed, setSignInPressed] = useState(false);
-
-  const handleSignInPressIn = () => {
-    setSignInPressed(true);
-    Animated.spring(signInScale, { toValue: 0.85, useNativeDriver: true, speed: 30, bounciness: 10 }).start();
-  };
-  const handleSignInPressOut = () => {
-    setSignInPressed(false);
-    Animated.spring(signInScale, { toValue: 1, useNativeDriver: true, speed: 20, bounciness: 14 }).start();
-  };
 
   const handleSignIn = () => {
     router.push("/sign-in");
+  };
+
+  const handleChoosePlan = (name: string) => {
+    const message = `You selected the ${name} plan.`;
+    if (Platform.OS === "web") {
+      // react-native-web's Alert is a no-op; use the browser dialog instead.
+      window.alert(message);
+    } else {
+      Alert.alert("Plan selected", message);
+    }
   };
 
   return (
@@ -712,52 +729,6 @@ export default function Index() {
               </Animated.View>
             ))}
           </ScrollView>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "stretch",
-              gap: spacing.md,
-              paddingHorizontal: spacing.lg,
-              paddingBottom: spacing.sm,
-            }}
-          >
-            {SPECIAL_OFFERS.map((plan) => (
-              <View key={plan.id} style={[styles.pricingCard, { width: offerCardWidth }]}>
-                <View style={[styles.pricingImageWrap, { alignItems: "center", justifyContent: "center" }]}>
-                  <Text style={{ fontSize: 32 }}>{plan.emoji}</Text>
-                </View>
-                <View style={styles.pricingBody}>
-                  <Text style={styles.pricingName}>{plan.name}</Text>
-                  <Text style={styles.pricingTagline}>{plan.tagline}</Text>
-                  {plan.features.map((feature) => (
-                    <View key={feature} style={styles.pricingFeatureRow}>
-                      <Text style={styles.pricingCheck}>✓</Text>
-                      <Text style={styles.pricingFeatureText}>{feature}</Text>
-                    </View>
-                  ))}
-                  <Text style={styles.pricingPrice}>
-                    {plan.price}
-                    <Text style={{ fontSize: 12, color: colors.muted }}> /mo</Text>
-                  </Text>
-                  <Pressable
-                    style={({ pressed }) => [
-                      plan.featured ? styles.pricingButtonFeatured : styles.buttonBlush,
-                      pressed && { opacity: 0.85, transform: [{ scale: 0.97 }] },
-                    ]}
-                    onPress={() => handleChoosePlan(plan.name)}
-                  >
-                    <Text style={{ color: plan.featured ? colors.white : colors.inkSoft, fontWeight: "700", fontSize: 12 }}>
-                      Choose Plan
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
-            ))}
-          </View>
-        </View>
-            ))}
-          </View>
         </View>
 
         {/* Contact Section */}
