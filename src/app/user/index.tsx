@@ -1,28 +1,36 @@
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { Stack, router } from "expo-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal, Pressable, ScrollView, Text, View } from "react-native";
 import { colors, styles } from "../../theme/style";
 import {
   DOCTORS,
   TIME_SLOTS,
   TREATMENTS,
-  currentUser,
+  cancelAppointment,
+  createAppointment,
+  loadUpcomingAppointment,
+  type Appointment,
   type Doctor,
   type Treatment,
 } from "../../utils/data";
+import { notify } from "../../utils/notify";
+import { useSession } from "../../utils/supabase";
 
 type Mode = "doctor" | "treatment";
 
-type AppointmentStatus = "pending" | "confirmed" | "complete" | "cancelled";
-
-type Appointment = {
-  doctorId: string;
-  treatmentId: string;
-  dayIndex: number;
-  slot: string;
-  status: AppointmentStatus;
-};
+function formatStartsAt(iso: string): string {
+  const start = new Date(iso);
+  const date = start.toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+  const time = `${String(start.getHours()).padStart(2, "0")}:${String(
+    start.getMinutes(),
+  ).padStart(2, "0")}`;
+  return `${date} at ${time}`;
+}
 
 function nextWeekDays(): { day: string; date: number; month: string }[] {
   return Array.from({ length: 7 }, (_, i) => {
@@ -42,12 +50,37 @@ export default function User() {
   const [treatmentId, setTreatmentId] = useState(TREATMENTS[0].id);
   const [dayIndex, setDayIndex] = useState(0);
   const [slot, setSlot] = useState<string | null>(null);
-  const [appointment, setAppointment] = useState<Appointment | null>(null);
+  // Tagged with the session that loaded it, so signing out drops the card
+  // without a synchronous setState inside the effect.
+  const [loaded, setLoaded] = useState<{
+    userId: string;
+    appointment: Appointment | null;
+  } | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [slotWarning, setSlotWarning] = useState(false);
+  const [warning, setWarning] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [scheduleY, setScheduleY] = useState(0);
+  const session = useSession();
 
   const scrollRef = useRef<ScrollView>(null);
+
+  const userId = session?.user.id;
+
+  useEffect(() => {
+    if (!userId) return;
+    let cancelled = false;
+    loadUpcomingAppointment()
+      .then((next) => {
+        if (!cancelled) setLoaded({ userId, appointment: next });
+      })
+      .catch((error: Error) => notify(error.message));
+    return () => {
+      cancelled = true;
+    };
+  }, [userId]);
+
+  const loadedAppointment = loaded?.userId === userId ? loaded : null;
+  const appointment = loadedAppointment?.appointment ?? null;
 
   const days = nextWeekDays();
   const doctor = DOCTORS.find((d) => d.id === doctorId)!;
@@ -86,27 +119,48 @@ export default function User() {
   const appointmentTreatment = appointment
     ? TREATMENTS.find((t) => t.id === appointment.treatmentId)
     : null;
-  const appointmentDay = appointment ? days[appointment.dayIndex] : null;
 
-  const acceptBooking = () => {
-    if (!slot) {
+  const acceptBooking = async () => {
+    if (!slot || submitting || session === undefined) {
       return;
     }
-    setAppointment({
-      doctorId,
-      treatmentId,
-      dayIndex,
-      slot,
-      status: "pending",
-    });
+    if (!session) {
+      setConfirmOpen(false);
+      router.push("/sign-in");
+      return;
+    }
+
+    const startsAt = new Date();
+    startsAt.setDate(startsAt.getDate() + dayIndex);
+    const [hours, minutes] = slot.split(":").map(Number);
+    startsAt.setHours(hours, minutes, 0, 0);
+
+    setSubmitting(true);
+    const error = await createAppointment(doctorId, treatmentId, startsAt);
+    setSubmitting(false);
     setConfirmOpen(false);
+    if (error) {
+      setWarning(error);
+      scrollRef.current?.scrollTo({
+        y: Math.max(scheduleY - 24, 0),
+        animated: true,
+      });
+      return;
+    }
+
+    const next = await loadUpcomingAppointment().catch((e: Error) => {
+      notify(e.message);
+      return null;
+    });
+    setLoaded({ userId: session.user.id, appointment: next });
     setSlot(null);
+    setWarning(null);
   };
 
   // Missing input is not a dead end: point the user at the section that needs it.
   const requestSchedule = () => {
     if (!slot) {
-      setSlotWarning(true);
+      setWarning("Select a time slot to continue.");
       scrollRef.current?.scrollTo({
         y: Math.max(scheduleY - 24, 0),
         animated: true,
@@ -126,9 +180,13 @@ export default function User() {
           headerTintColor: colors.inkSoft,
           headerRight: () => (
             <Pressable
-              onPress={() =>
-                router.push(currentUser ? "/profile" : "/sign-in")
-              }
+              onPress={() => {
+                if (session === null) {
+                  router.push("/sign-in");
+                } else {
+                  router.push("/profile");
+                }
+              }}
               accessibilityLabel="Profile"
               style={styles.bookingHeaderButton}
             >
@@ -147,23 +205,37 @@ export default function User() {
         style={styles.bookingScreen}
         contentContainerStyle={styles.bookingContent}
       >
-        {appointment &&
-        appointmentDoctor &&
-        appointmentTreatment &&
-        appointmentDay ? (
+        {appointment && appointmentDoctor && appointmentTreatment ? (
           <View style={styles.bookingConfirmed}>
             <Text style={styles.bookingConfirmedTitle}>Your appointment</Text>
             <Text style={styles.bookingConfirmedBody}>
               {appointmentDoctor.name} — {appointmentTreatment.name}
             </Text>
             <Text style={styles.bookingConfirmedMeta}>
-              {appointmentDay.day}, {appointmentDay.date} {appointmentDay.month}{" "}
-              at {appointment.slot}
+              {formatStartsAt(appointment.startsAt)}
             </Text>
             <View style={styles.bookingStatusPill}>
               <Text style={styles.bookingStatusText}>
-                {appointment.status}
+                {appointment.status.replace("_", " ")}
               </Text>
+            </View>
+            <View style={styles.bookingModalActions}>
+              <Pressable
+                style={styles.bookingModalCancel}
+                onPress={async () => {
+                  if (!userId) return;
+                  const error = await cancelAppointment(appointment.id);
+                  if (error) {
+                    notify(error);
+                    return;
+                  }
+                  setLoaded({ userId, appointment: null });
+                }}
+              >
+                <Text style={styles.bookingModalCancelText}>
+                  Cancel appointment
+                </Text>
+              </Pressable>
             </View>
           </View>
         ) : null}
@@ -248,16 +320,14 @@ export default function User() {
           style={styles.bookingSchedule}
           onLayout={(e) => setScheduleY(e.nativeEvent.layout.y)}
         >
-          {slotWarning ? (
+          {warning ? (
             <View style={styles.bookingWarning}>
               <MaterialDesignIcons
                 name="alert-circle-outline"
                 size={18}
                 color={colors.tanDark}
               />
-              <Text style={styles.bookingWarningText}>
-                Select a time slot to continue.
-              </Text>
+              <Text style={styles.bookingWarningText}>{warning}</Text>
             </View>
           ) : null}
 
@@ -291,7 +361,7 @@ export default function User() {
                   style={[styles.bookingSlot, active && styles.bookingSlotActive]}
                   onPress={() => {
                     setSlot(t);
-                    setSlotWarning(false);
+                    setWarning(null);
                   }}
                 >
                   <Text
@@ -372,8 +442,14 @@ export default function User() {
               >
                 <Text style={styles.bookingModalCancelText}>Cancel</Text>
               </Pressable>
-              <Pressable style={styles.bookingModalAccept} onPress={acceptBooking}>
-                <Text style={styles.bookingModalAcceptText}>Confirm</Text>
+              <Pressable
+                style={styles.bookingModalAccept}
+                disabled={submitting}
+                onPress={acceptBooking}
+              >
+                <Text style={styles.bookingModalAcceptText}>
+                  {submitting ? "Booking…" : "Confirm"}
+                </Text>
               </Pressable>
             </View>
           </View>

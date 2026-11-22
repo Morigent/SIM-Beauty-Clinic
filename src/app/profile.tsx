@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,28 +11,64 @@ import {
 } from "react-native";
 import { Redirect, Stack, router } from "expo-router";
 import { colors, fonts, fontSize, radius, spacing } from "../theme/style";
-import { currentUser, logout, saveProfile } from "../utils/data";
+import { loadProfile, saveProfile, signOut } from "../utils/data";
+import { notify } from "../utils/notify";
+import { useSession } from "../utils/supabase";
 
 export default function Profile() {
-  const [name, setName] = useState(currentUser?.name ?? "");
-  const [email, setEmail] = useState(currentUser?.email ?? "");
-  const [phone, setPhone] = useState(currentUser?.phone ?? "");
-  const [dob, setDob] = useState(currentUser?.dob ?? "");
-  const [address, setAddress] = useState(currentUser?.address ?? "");
+  const session = useSession();
+  const [ready, setReady] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dob, setDob] = useState("");
+  const [address, setAddress] = useState("");
 
-  if (!currentUser) {
+  useEffect(() => {
+    if (!session) return;
+    let cancelled = false;
+    loadProfile()
+      .then((profile) => {
+        if (cancelled || !profile) return;
+        setName(profile.fullName);
+        setPhone(profile.phone ?? "");
+        setDob(profile.dob ?? "");
+        setAddress(profile.address ?? "");
+      })
+      .catch((error: Error) => notify(error.message))
+      .finally(() => {
+        if (!cancelled) setReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [session]);
+
+  if (session === undefined) {
+    return <View style={s.screen} />;
+  }
+  if (!session) {
     return <Redirect href="/sign-in" />;
   }
+  if (!ready) {
+    return <View style={s.screen} />;
+  }
 
-  const save = () => {
-    saveProfile({
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim() || undefined,
-      dob: dob.trim() || undefined,
-      address: address.trim() || undefined,
-    });
+  const save = async () => {
+    if (saving) return;
+    setSaving(true);
+    const error = await saveProfile({ fullName: name, phone, dob, address });
+    setSaving(false);
+    if (error) {
+      notify(error);
+      return;
+    }
     router.replace("/user");
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.replace("/sign-in");
   };
 
   return (
@@ -65,8 +101,8 @@ export default function Profile() {
         <Text style={s.label}>Email</Text>
         <TextInput
           style={s.input}
-          value={email}
-          onChangeText={setEmail}
+          value={session.user.email ?? ""}
+          editable={false}
           placeholder="you@example.com"
           placeholderTextColor={colors.muted}
           autoCapitalize="none"
@@ -111,10 +147,7 @@ export default function Profile() {
 
         <View style={s.signOutRow}>
           <Pressable
-            onPress={() => {
-              logout();
-              router.replace("/sign-in");
-            }}
+            onPress={handleSignOut}
           >
             <Text style={s.signOutText}>Sign out</Text>
           </Pressable>

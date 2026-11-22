@@ -1,13 +1,38 @@
 import type { MaterialDesignIconsIconName } from "@react-native-vector-icons/material-design-icons";
 import type { ImageSourcePropType } from "react-native";
+import { supabase } from "./supabase";
 
-export interface User {
-  name: string;
-  email: string;
-  password: string;
-  phone?: string;
-  dob?: string;
-  address?: string;
+export type UserRole = "patient" | "employee" | "doctor" | "admin";
+
+export type AppointmentStatus =
+  | "pending"
+  | "confirmed"
+  | "completed"
+  | "cancelled"
+  | "no_show";
+
+export interface Profile {
+  id: string;
+  role: UserRole;
+  fullName: string;
+  phone: string | null;
+  dob: string | null;
+  address: string | null;
+}
+
+export interface ProfileDraft {
+  fullName: string;
+  phone: string;
+  dob: string;
+  address: string;
+}
+
+export interface Appointment {
+  id: string;
+  doctorId: string;
+  treatmentId: string;
+  startsAt: string;
+  status: AppointmentStatus;
 }
 
 export interface Treatment {
@@ -26,41 +51,6 @@ export interface Doctor {
   treatmentIds: string[];
   image: ImageSourcePropType;
   about: string;
-}
-
-// ponytail: in-memory dummy auth. Replace with a real backend before release.
-const USERS: User[] = [
-  { name: "Ava Chen", email: "ava@luxederm.com", password: "ava123" },
-  { name: "Noah Patel", email: "noah@luxederm.com", password: "noah123" },
-];
-
-export let currentUser: User | null = null;
-
-export function login(email: string, password: string): User | null {
-  const user = USERS.find(
-    (u) => u.email.toLowerCase() === email.trim().toLowerCase() && u.password === password
-  );
-  currentUser = user ?? null;
-  return currentUser;
-}
-
-export function signup(name: string, email: string, password: string): User {
-  const user: User = { name: name.trim(), email: email.trim(), password };
-  USERS.push(user);
-  currentUser = user;
-  return user;
-}
-
-export function logout(): void {
-  currentUser = null;
-}
-
-export function saveProfile(updates: Partial<User>): User | null {
-  if (!currentUser) return null;
-  currentUser = { ...currentUser, ...updates };
-  const idx = USERS.findIndex((u) => u.email === currentUser!.email);
-  if (idx >= 0) USERS[idx] = currentUser;
-  return currentUser;
 }
 
 export const TREATMENTS: Treatment[] = [
@@ -161,33 +151,178 @@ export const DOCTORS: Doctor[] = [
 
 export const TIME_SLOTS = ["09:00", "10:30", "12:00", "13:30", "15:00", "16:30"];
 
-export interface BookedSlot {
-  doctorId: string;
-  // ponytail: offset from today (0..6). Swap for absolute dates with a backend.
-  dayOffset: number;
-  time: string;
+// GoTrue reports failures by code; these are the ones the sign-in screen can
+// actually reach. Anything else falls through to the server message.
+const AUTH_ERRORS: Record<string, string> = {
+  invalid_credentials: "Wrong email or password.",
+  email_not_confirmed:
+    "Confirm your email address before logging in. Check your inbox.",
+  user_already_exists: "An account with this email already exists. Log in instead.",
+  weak_password: "Choose a password with at least 6 characters.",
+  over_email_send_rate_limit:
+    "Too many emails were sent. Try again in a few minutes.",
+  over_request_rate_limit: "Too many attempts. Try again in a few minutes.",
+};
+
+/** Resolves to null on success, or a message to show the user. */
+export async function signIn(
+  email: string,
+  password: string,
+): Promise<string | null> {
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email.trim(),
+    password,
+  });
+  return error ? (AUTH_ERRORS[error.code ?? ""] ?? error.message) : null;
 }
 
-export interface DoctorOffDay {
-  doctorId: string;
-  dayOffset: number;
+export async function signUp(
+  name: string,
+  email: string,
+  password: string,
+): Promise<{ error: string | null; needsConfirmation: boolean }> {
+  const { data, error } = await supabase.auth.signUp({
+    email: email.trim(),
+    password,
+    options: { data: { full_name: name.trim() } },
+  });
+  if (error) {
+    return {
+      error: AUTH_ERRORS[error.code ?? ""] ?? error.message,
+      needsConfirmation: false,
+    };
+  }
+  // Email confirmation is enabled on this project: no session arrives until
+  // the address is verified.
+  return { error: null, needsConfirmation: data.session === null };
 }
 
-// ponytail: dummy bookings in memory; reload resets.
-export const BOOKED_SLOTS: BookedSlot[] = [
-  // Dr. Ava Chen — day 1 fully booked, day 3 morning taken.
-  ...TIME_SLOTS.map((time) => ({ doctorId: "ava", dayOffset: 1, time })),
-  { doctorId: "ava", dayOffset: 3, time: "09:00" },
-  // Dr. Noah Patel — day 4 afternoon taken.
-  { doctorId: "noah", dayOffset: 4, time: "15:00" },
-  { doctorId: "noah", dayOffset: 4, time: "16:30" },
-];
+export async function signOut(): Promise<void> {
+  await supabase.auth.signOut();
+}
 
-// Whole days off (break / leave). A day with no slots left is also hidden by the UI.
-export const DOCTOR_OFF_DAYS: DoctorOffDay[] = [
-  { doctorId: "noah", dayOffset: 2 },
-  { doctorId: "mia", dayOffset: 0 },
-  { doctorId: "mia", dayOffset: 1 },
-  // Dr. Liam Kim — off the whole week: demonstrates the "not available" notice.
-  ...Array.from({ length: 7 }, (_, dayOffset) => ({ doctorId: "liam", dayOffset })),
-];
+export async function loadProfile(): Promise<Profile | null> {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id, role, full_name, phone, dob, address")
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  if (!data) return null;
+  return {
+    id: data.id,
+    role: data.role,
+    fullName: data.full_name,
+    phone: data.phone,
+    dob: data.dob,
+    address: data.address,
+  };
+}
+
+export async function saveProfile(draft: ProfileDraft): Promise<string | null> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return "Log in to save your profile.";
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      full_name: draft.fullName.trim(),
+      phone: draft.phone.trim() || null,
+      dob: draft.dob.trim() || null,
+      address: draft.address.trim() || null,
+    })
+    .eq("id", user.id)
+    .select("id")
+    .single();
+
+  if (!error) return null;
+  if (error.code === "22007" || error.code === "22008") {
+    return "Enter the date of birth as YYYY-MM-DD.";
+  }
+  return error.message;
+}
+
+type UpcomingRow = {
+  id: string;
+  starts_at: string;
+  status: AppointmentStatus;
+  // Many-to-one embeds arrive as objects, but the untyped client infers arrays.
+  doctor: { slug: string };
+  treatment: { slug: string };
+};
+
+export async function loadUpcomingAppointment(): Promise<Appointment | null> {
+  const { data, error } = await supabase
+    .from("appointments")
+    .select(
+      "id, starts_at, status, doctor:doctor_profiles(slug), treatment:treatments(slug)",
+    )
+    .in("status", ["pending", "confirmed"])
+    .gte("starts_at", new Date().toISOString())
+    .order("starts_at")
+    .limit(1)
+    .returns<UpcomingRow[]>();
+  if (error) throw new Error(error.message);
+  const row = data?.[0];
+  if (!row) return null;
+  return {
+    id: row.id,
+    doctorId: row.doctor.slug,
+    treatmentId: row.treatment.slug,
+    startsAt: row.starts_at,
+    status: row.status,
+  };
+}
+
+/** Resolves to null on success, or a message to show the user. */
+export async function createAppointment(
+  doctorId: string,
+  treatmentId: string,
+  startsAt: Date,
+): Promise<string | null> {
+  const [doctor, treatment, session] = await Promise.all([
+    supabase
+      .from("doctor_profiles")
+      .select("doctor_id")
+      .eq("slug", doctorId)
+      .maybeSingle(),
+    supabase
+      .from("treatments")
+      .select("id, duration_min")
+      .eq("slug", treatmentId)
+      .maybeSingle(),
+    supabase.auth.getUser(),
+  ]);
+  if (doctor.error) return doctor.error.message;
+  if (treatment.error) return treatment.error.message;
+  if (!doctor.data || !treatment.data) {
+    return "This doctor or treatment is no longer available.";
+  }
+  if (!session.data.user) return "Log in to book an appointment.";
+
+  const { error } = await supabase.from("appointments").insert({
+    patient_id: session.data.user.id,
+    doctor_id: doctor.data.doctor_id,
+    treatment_id: treatment.data.id,
+    starts_at: startsAt.toISOString(),
+    ends_at: new Date(
+      startsAt.getTime() + treatment.data.duration_min * 60_000,
+    ).toISOString(),
+  });
+  if (!error) return null;
+  // NR-06: the partial unique index owns conflict detection.
+  return error.code === "23505"
+    ? "That slot was just booked by someone else. Pick another time."
+    : error.message;
+}
+
+/** Resolves to null on success, or a message to show the user. */
+export async function cancelAppointment(id: string): Promise<string | null> {
+  const { error } = await supabase
+    .from("appointments")
+    .update({ status: "cancelled" })
+    .eq("id", id);
+  return error ? error.message : null;
+}
+

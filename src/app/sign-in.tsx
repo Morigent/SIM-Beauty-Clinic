@@ -1,45 +1,52 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import { Stack, router } from 'expo-router';
 import { styles, colors } from '../theme/style';
-import { login, signup } from '../utils/data';
+import { signIn, signUp } from '../utils/data';
+import { notify } from '../utils/notify';
+
 export default function SignIn() {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const isLogin = mode === 'login';
 
-  const showAlert = (message: string) => {
-    if (Platform.OS === 'web') {
-      window.alert(message);
-    } else {
-      Alert.alert('LuxeDerm', message);
-    }
-  };
-
-  const handleSubmit = () => {
-    if (isLogin) {
-      if (!email.trim() || !password.trim()) {
-        showAlert('Please enter your email and password.');
-        return;
-      }
-    } else if (!name.trim() || !email.trim() || !password.trim()) {
-      showAlert('Please fill in all fields.');
+  const handleSubmit = async () => {
+    if (submitting) {
       return;
     }
+    if (!email.trim() || !password.trim() || (!isLogin && !name.trim())) {
+      notify('Please fill in all fields.');
+      return;
+    }
+
+    setSubmitting(true);
     if (isLogin) {
-      const user = login(email, password);
-      if (!user) {
-        showAlert('Wrong email or password.');
+      const error = await signIn(email, password);
+      setSubmitting(false);
+      if (error) {
+        notify(error);
         return;
       }
       router.replace('/user');
-    } else {
-      signup(name, email, password);
-      router.replace('/profile');
+      return;
     }
+
+    const { error, needsConfirmation } = await signUp(name, email, password);
+    setSubmitting(false);
+    if (error) {
+      notify(error);
+      return;
+    }
+    if (needsConfirmation) {
+      notify('Account created. Confirm your email address, then log in.');
+      setMode('login');
+      return;
+    }
+    router.replace('/profile');
   };
 
   return (
